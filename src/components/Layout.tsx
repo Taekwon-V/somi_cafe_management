@@ -46,11 +46,10 @@ export default function Layout() {
 
   const drawer = (
     <Box sx={{ 
-      bgcolor: 'rgba(255, 255, 255, 0.75)', 
-      backdropFilter: 'blur(20px)',
+      bgcolor: 'white', 
       color: '#1e293b', 
       height: '100%', 
-      borderRight: '1px solid rgba(255, 255, 255, 0.4)' 
+      borderRight: '1px solid rgba(0,0,0,0.05)' 
     }}>
       <Toolbar sx={{ mb: 2, mt: 1 }}>
         <LocalCafeIcon sx={{ mr: 1, color: '#0f172a' }} />
@@ -71,10 +70,10 @@ export default function Layout() {
                 borderRadius: 2,
                 color: location.pathname === item.path ? '#0f172a' : '#64748b',
                 '&.Mui-selected': {
-                  bgcolor: 'rgba(255, 255, 255, 0.6)',
-                  '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.8)' }
+                  bgcolor: '#f1f5f9',
+                  '&:hover': { bgcolor: '#e2e8f0' }
                 },
-                '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.4)' }
+                '&:hover': { bgcolor: '#f8f9fa' }
               }}
             >
               <ListItemIcon sx={{ color: location.pathname === item.path ? '#0f172a' : '#94a3b8', minWidth: 40 }}>
@@ -98,7 +97,8 @@ export default function Layout() {
     <Box sx={{ 
       display: 'flex',
       minHeight: '100vh',
-      backgroundImage: `url('/bg-cafe.jpg')`,
+      backgroundColor: '#f8f9fa',
+      backgroundImage: `url('/bg-minimal.jpg')`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundAttachment: 'fixed'
@@ -110,10 +110,9 @@ export default function Layout() {
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
-          bgcolor: 'rgba(255, 255, 255, 0.75)',
-          backdropFilter: 'blur(20px)',
+          bgcolor: 'transparent',
           color: '#1e293b',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.4)',
+          borderBottom: 'none',
         }}
       >
         <Toolbar>
