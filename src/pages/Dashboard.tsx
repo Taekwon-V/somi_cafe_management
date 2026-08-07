@@ -2,12 +2,14 @@ import { useState } from 'react';
 import { 
   Grid, Card, CardContent, Typography, Box, 
   Paper, Divider, Dialog, DialogTitle, DialogContent, 
-  IconButton, CardMedia
+  IconButton, CardMedia, Fade
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import BrushIcon from '@mui/icons-material/Brush';
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
 import CampaignIcon from '@mui/icons-material/Campaign';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 import { useAuth } from '../context/AuthContext';
 
@@ -18,9 +20,24 @@ const recentUpdates = [
   { id: 3, category: '인테리어', text: '어쿠스틱 룸(흡음재) 및 딥 월넛 가구 견적서 1차 검토', time: '1일 전', icon: <BrushIcon sx={{ color: '#ef4444' }} />, color: '#fee2e2' },
 ];
 
+// Dummy data for Vision Board History
+const visionHistory = [
+  { id: 1, image: '/images/the_venue_vision.jpg', version: 'v2026.08.07', desc: '기획안 A: The Venue (프리미엄 재즈 살롱)' },
+  { id: 2, image: '/images/modern_cozy_cafe.jpg', version: 'v2026.08.06', desc: '초기 모던 코지 컨셉 초안' }
+];
+
 export default function Dashboard() {
   const { user } = useAuth();
   const [galleryOpen, setGalleryOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const handleNextImage = () => {
+    setCurrentImageIndex((prev) => (prev + 1) % visionHistory.length);
+  };
+
+  const handlePrevImage = () => {
+    setCurrentImageIndex((prev) => (prev - 1 + visionHistory.length) % visionHistory.length);
+  };
 
   return (
     <Box sx={{ p: { xs: 1, md: 2 } }}>
@@ -74,8 +91,8 @@ export default function Dashboard() {
               >
                 <CardMedia
                   component="img"
-                  image="/images/the_venue_vision.jpg"
-                  alt="The Venue Vision Board"
+                  image={visionHistory[0].image}
+                  alt="Vision Board"
                   sx={{ 
                     maxHeight: 400, 
                     objectFit: 'cover',
@@ -93,7 +110,7 @@ export default function Dashboard() {
                   borderRadius: 2,
                   backdropFilter: 'blur(4px)'
                 }}>
-                  <Typography variant="caption" sx={{ fontWeight: 'bold' }}>v2026.08.07</Typography>
+                  <Typography variant="caption" sx={{ fontWeight: 'bold' }}>{visionHistory[0].version}</Typography>
                 </Box>
               </Card>
             </Paper>
@@ -171,22 +188,42 @@ export default function Dashboard() {
             <CloseIcon />
           </IconButton>
         </DialogTitle>
-        <DialogContent sx={{ p: 0, pb: 4, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <Box sx={{ width: '100%', p: 3, display: 'flex', justifyContent: 'center' }}>
-            <img 
-              src="/images/the_venue_vision.jpg" 
-              alt="Gallery" 
-              style={{ maxWidth: '100%', maxHeight: '60vh', objectFit: 'contain', borderRadius: '8px' }} 
-            />
+        <DialogContent sx={{ p: 0, pb: 4, display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}>
+          
+          <Box sx={{ width: '100%', p: 3, display: 'flex', justifyContent: 'center', position: 'relative', minHeight: '50vh', alignItems: 'center' }}>
+            {/* 좌측 버튼 */}
+            <IconButton 
+              onClick={handlePrevImage}
+              sx={{ position: 'absolute', left: 16, bgcolor: 'rgba(255,255,255,0.1)', color: 'white', '&:hover': { bgcolor: 'rgba(255,255,255,0.2)' } }}
+            >
+              <ChevronLeftIcon fontSize="large" />
+            </IconButton>
+
+            <Fade in={true} key={currentImageIndex}>
+              <img 
+                src={visionHistory[currentImageIndex].image} 
+                alt="Gallery" 
+                style={{ maxWidth: '80%', maxHeight: '60vh', objectFit: 'contain', borderRadius: '8px' }} 
+              />
+            </Fade>
+
+            {/* 우측 버튼 */}
+            <IconButton 
+              onClick={handleNextImage}
+              sx={{ position: 'absolute', right: 16, bgcolor: 'rgba(255,255,255,0.1)', color: 'white', '&:hover': { bgcolor: 'rgba(255,255,255,0.2)' } }}
+            >
+              <ChevronRightIcon fontSize="large" />
+            </IconButton>
           </Box>
-          <Typography variant="body1" sx={{ color: '#cbd5e1', mt: 2 }}>
-            v2026.08.07 - 기획안 A: The Venue (프리미엄 재즈 살롱) 
+
+          <Typography variant="body1" sx={{ color: '#cbd5e1', mt: 2, textAlign: 'center' }}>
+            {visionHistory[currentImageIndex].version} - {visionHistory[currentImageIndex].desc}
           </Typography>
           
           <Divider sx={{ width: '80%', my: 3, borderColor: 'rgba(255,255,255,0.1)' }} />
           
           <Typography variant="body2" sx={{ color: '#64748b' }}>
-            이전 히스토리가 없습니다.
+            {currentImageIndex + 1} / {visionHistory.length}
           </Typography>
         </DialogContent>
       </Dialog>
