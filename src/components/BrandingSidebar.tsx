@@ -46,60 +46,81 @@ export default function BrandingSidebar({ docs, selectedDocId, onSelectDoc, onAd
   };
 
   return (
-    <Box sx={{ width: 280, borderRight: '1px solid #e0e0e0', height: '100%', display: 'flex', flexDirection: 'column', bgcolor: 'background.paper', flexShrink: 0 }}>
-      <Box sx={{ p: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #e0e0e0' }}>
-        <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>브랜딩 문서</Typography>
-        <IconButton size="small" onClick={() => openAddDialog('folder', null)} title="새 카테고리 추가">
-          <AddIcon />
+    <Box sx={{ 
+      width: 280, 
+      borderRight: '1px solid #f0f0f0', 
+      height: '100%', 
+      display: 'flex', 
+      flexDirection: 'column', 
+      bgcolor: '#fafafa', 
+      flexShrink: 0 
+    }}>
+      <Box sx={{ p: 2.5, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Typography variant="subtitle2" sx={{ fontWeight: 700, color: '#333', letterSpacing: 0.5 }}>
+          기획 목차
+        </Typography>
+        <IconButton size="small" onClick={() => openAddDialog('folder', null)} sx={{ bgcolor: '#fff', boxShadow: '0 2px 4px rgba(0,0,0,0.05)', '&:hover': { bgcolor: '#f0f0f0' } }}>
+          <AddIcon fontSize="small" />
         </IconButton>
       </Box>
-      <List sx={{ flexGrow: 1, overflowY: 'auto', p: 0 }}>
+      <List sx={{ flexGrow: 1, overflowY: 'auto', px: 1.5, pt: 0 }}>
         {folders.map(folder => (
           <React.Fragment key={folder.id}>
             <ListItem 
               disablePadding
               secondaryAction={
-                <Box>
+                <Box className="folder-actions" sx={{ display: 'none' }}>
                   <IconButton edge="end" size="small" onClick={(e) => { e.stopPropagation(); openAddDialog('document', folder.id); }} title="새 문서 추가">
-                    <AddIcon fontSize="small" />
+                    <AddIcon sx={{ fontSize: 16 }} />
                   </IconButton>
                   <IconButton edge="end" size="small" onClick={(e) => { e.stopPropagation(); onDeleteDoc(folder.id); }} title="카테고리 삭제">
-                    <DeleteIcon fontSize="small" />
+                    <DeleteIcon sx={{ fontSize: 16 }} />
                   </IconButton>
                 </Box>
               }
+              sx={{ '&:hover .folder-actions': { display: 'block' }, mb: 0.5 }}
             >
-              <ListItemButton onClick={() => handleToggleFolder(folder.id)} sx={{ pl: 2 }}>
-                <FolderIcon sx={{ mr: 1, color: 'text.secondary', fontSize: 20 }} />
-                <ListItemText primary={<Typography variant="body2" sx={{ fontWeight: 'medium' }}>{folder.title}</Typography>} />
-                {openFolders[folder.id] ? <ExpandLess fontSize="small" /> : <ExpandMore fontSize="small" />}
+              <ListItemButton 
+                onClick={() => handleToggleFolder(folder.id)} 
+                sx={{ borderRadius: 1.5, py: 1, '&:hover': { bgcolor: '#f0f0f0' } }}
+              >
+                <FolderIcon sx={{ mr: 1.5, color: '#9e9e9e', fontSize: 18 }} />
+                <ListItemText primary={<Typography variant="body2" sx={{ fontWeight: 600, color: '#444' }}>{folder.title}</Typography>} />
+                {openFolders[folder.id] !== false ? <ExpandLess sx={{ fontSize: 18, color: '#999' }} /> : <ExpandMore sx={{ fontSize: 18, color: '#999' }} />}
               </ListItemButton>
             </ListItem>
             <Collapse in={openFolders[folder.id] !== false} timeout="auto" unmountOnExit>
-              <List component="div" disablePadding>
+              <List component="div" disablePadding sx={{ mb: 1 }}>
                 {getDocuments(folder.id).map(doc => (
                   <ListItem 
                     key={doc.id} 
                     disablePadding
                     secondaryAction={
-                      <IconButton edge="end" size="small" onClick={(e) => { e.stopPropagation(); onDeleteDoc(doc.id); }} title="문서 삭제">
-                        <DeleteIcon fontSize="small" />
+                      <IconButton className="doc-actions" edge="end" size="small" sx={{ display: 'none' }} onClick={(e) => { e.stopPropagation(); onDeleteDoc(doc.id); }} title="문서 삭제">
+                        <DeleteIcon sx={{ fontSize: 14 }} />
                       </IconButton>
                     }
+                    sx={{ '&:hover .doc-actions': { display: 'block' } }}
                   >
                     <ListItemButton 
-                      sx={{ pl: 5 }} 
-                      selected={selectedDocId === doc.id}
+                      sx={{ 
+                        pl: 5, 
+                        py: 0.75,
+                        borderRadius: 1.5,
+                        mb: 0.25,
+                        bgcolor: selectedDocId === doc.id ? '#e3f2fd' : 'transparent',
+                        '&:hover': { bgcolor: selectedDocId === doc.id ? '#e3f2fd' : '#f0f0f0' }
+                      }}
                       onClick={() => onSelectDoc(doc.id)}
                     >
-                      <DocIcon sx={{ mr: 1, color: 'text.secondary', fontSize: 18 }} />
-                      <ListItemText primary={<Typography variant="body2">{doc.title}</Typography>} />
+                      <DocIcon sx={{ mr: 1.5, color: selectedDocId === doc.id ? '#1976d2' : '#bdbdbd', fontSize: 16 }} />
+                      <ListItemText primary={<Typography variant="body2" sx={{ color: selectedDocId === doc.id ? '#1976d2' : '#666', fontWeight: selectedDocId === doc.id ? 600 : 400 }}>{doc.title}</Typography>} />
                     </ListItemButton>
                   </ListItem>
                 ))}
                 {getDocuments(folder.id).length === 0 && (
-                  <ListItem sx={{ pl: 5, py: 1 }}>
-                    <Typography variant="caption" color="text.disabled">문서가 없습니다.</Typography>
+                  <ListItem sx={{ pl: 5, py: 0.5 }}>
+                    <Typography variant="caption" color="#aaa">문서가 없습니다.</Typography>
                   </ListItem>
                 )}
               </List>
@@ -115,8 +136,8 @@ export default function BrandingSidebar({ docs, selectedDocId, onSelectDoc, onAd
         )}
       </List>
 
-      <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)} fullWidth maxWidth="xs">
-        <DialogTitle>{newItemType === 'folder' ? '새 카테고리 추가' : '새 문서 추가'}</DialogTitle>
+      <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)} fullWidth maxWidth="xs" PaperProps={{ sx: { borderRadius: 3 } }}>
+        <DialogTitle sx={{ fontWeight: 'bold' }}>{newItemType === 'folder' ? '새 카테고리 추가' : '새 문서 추가'}</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
@@ -133,11 +154,12 @@ export default function BrandingSidebar({ docs, selectedDocId, onSelectDoc, onAd
                 handleAdd();
               }
             }}
+            sx={{ mt: 1 }}
           />
         </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setDialogOpen(false)}>취소</Button>
-          <Button onClick={handleAdd} variant="contained" disabled={!newItemTitle.trim()}>추가</Button>
+        <DialogActions sx={{ px: 3, pb: 3 }}>
+          <Button onClick={() => setDialogOpen(false)} color="inherit">취소</Button>
+          <Button onClick={handleAdd} variant="contained" disableElevation disabled={!newItemTitle.trim()} sx={{ borderRadius: 2 }}>추가</Button>
         </DialogActions>
       </Dialog>
     </Box>
