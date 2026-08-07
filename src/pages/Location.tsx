@@ -18,11 +18,13 @@ import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import SquareFootIcon from '@mui/icons-material/SquareFoot';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import ApartmentIcon from '@mui/icons-material/Apartment';
 import LocalCafeIcon from '@mui/icons-material/LocalCafe';
 import AutoGraphIcon from '@mui/icons-material/AutoGraph';
 import UndoIcon from '@mui/icons-material/Undo';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
@@ -40,16 +42,16 @@ L.Icon.Default.mergeOptions({
 
 // 매물 데이터 (확장)
 const locationCandidates = [
-  { id: 1, title: '판교 백현동 카페거리', location: '경기 성남시 분당구', size: '35평', deposit: '1억', rent: '450만', premium: '5000만', salePrice: '15억', tags: ['#고급배후세대', '#넓은테라스'], desc: '판교 신도시의 구매력 높은 배후 세대를 둔 검증된 상권', color: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', lat: 37.3879, lng: 127.1121, footTraffic: '약 15,000명', households: '반경 500m 내 3,200세대', competitors: '12개', mainDemographic: '20~30대 직장인 및 여성 비율 높음' },
-  { id: 2, title: '광교 카페거리', location: '경기 수원시 영통구', size: '32평', deposit: '8000만', rent: '400만', premium: '3000만', salePrice: '12억', tags: ['#자연친화', '#브런치'], desc: '광교호수공원으로 이어지는 쾌적하고 자연 친화적인 상권', color: 'linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%)', lat: 37.2913, lng: 127.0456, footTraffic: '약 12,000명', households: '반경 500m 내 4,500세대', competitors: '8개', mainDemographic: '30대 초중반 신혼부부 및 가족 단위' },
-  { id: 3, title: '동탄2신도시 호수공원', location: '경기 화성시', size: '40평', deposit: '7000만', rent: '350만', premium: '없음', salePrice: '매매 불가(임대 전용)', tags: ['#젊은부부', '#대형공간'], desc: '30~40대 젊은 부부 비율이 높은 신도시 핵심 상권', color: 'linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%)', lat: 37.1685, lng: 127.1082, footTraffic: '약 18,000명', households: '반경 500m 내 8,000세대', competitors: '15개', mainDemographic: '30~40대 유아동 동반 가족 단위' },
-  { id: 4, title: '일산 밤리단길', location: '경기 고양시 일산동구', size: '30평', deposit: '5000만', rent: '300만', premium: '4000만', salePrice: '9억', tags: ['#핫플레이스', '#감성카페'], desc: '저층 단독주택단지 사이사이에 형성된 일산 최고 핫플레이스', color: 'linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%)', lat: 37.6695, lng: 126.7820, footTraffic: '약 8,000명', households: '주택단지 밀집 구역 (세대수 유동적)', competitors: '20개 이상', mainDemographic: '20대 커플 및 30대 핫플 탐방객' },
-  { id: 5, title: '보정동 카페거리', location: '경기 용인시 기흥구', size: '38평', deposit: '1억', rent: '500만', premium: '8000만', salePrice: '16억', tags: ['#대학상권', '#이국적'], desc: '아파트 단지와 단국대 학생 수요를 동시에 확보한 상권', color: 'linear-gradient(135deg, #fccb90 0%, #d57eeb 100%)', lat: 37.3204, lng: 127.1098, footTraffic: '약 14,000명', households: '반경 500m 내 2,800세대', competitors: '18개', mainDemographic: '단국대 대학생 및 인근 아파트 40대 주민' },
-  { id: 6, title: '위례 서일로 카페거리', location: '경기 하남시 위례동', size: '35평', deposit: '6000만', rent: '380만', premium: '2000만', salePrice: '10억 5천만', tags: ['#가족단위', '#반려견'], desc: '위례신도시 창곡천을 따라 다가구 주택 1층에 늘어선 상권', color: 'linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%)', lat: 37.4725, lng: 127.1432, footTraffic: '약 10,000명', households: '반경 500m 내 5,200세대', competitors: '10개', mainDemographic: '반려견 동반 30대 산책족 및 주부' },
-  { id: 7, title: '미사강변도시 망월천', location: '경기 하남시 망월동', size: '33평', deposit: '5000만', rent: '350만', premium: '1000만', salePrice: '매매 불가(임대 전용)', tags: ['#수변조망', '#뷰맛집'], desc: '망월천 수변공원 조망이 가능한 상가주택 지역', color: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)', lat: 37.5683, lng: 127.1895, footTraffic: '약 9,500명', households: '반경 500m 내 6,000세대', competitors: '14개', mainDemographic: '데이트하는 20대 커플 및 산책하는 지역 주민' },
-  { id: 8, title: '별내 카페거리', location: '경기 남양주시 별내동', size: '40평', deposit: '8000만', rent: '420만', premium: '6000만', salePrice: '13억', tags: ['#주차편리', '#넓은공간'], desc: '용암천을 따라 형성되어 서울 동북권 유입이 많은 특화 거리', color: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)', lat: 37.6436, lng: 127.1166, footTraffic: '약 11,000명', households: '반경 500m 내 3,800세대', competitors: '9개', mainDemographic: '서울 북동부 거주 30~40대 및 주말 드라이브 객' },
-  { id: 9, title: '운정신도시 동패동', location: '경기 파주시 동패동', size: '36평', deposit: '4000만', rent: '250만', premium: '없음', salePrice: '8억', tags: ['#합리적임대료', '#신흥상권'], desc: '대규모 신도시의 높은 소비력을 흡수할 수 있는 상가주택 상권', color: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)', lat: 37.7126, lng: 126.7423, footTraffic: '약 7,000명', households: '반경 500m 내 7,500세대', competitors: '5개', mainDemographic: '합리적 소비를 지향하는 신도시 30대 초기 입주자' },
-  { id: 10, title: '장기동 라베니체 인근', location: '경기 김포시 장기동', size: '38평', deposit: '4500만', rent: '280만', premium: '1000만', salePrice: '8억 5천만', tags: ['#키즈프렌들리', '#젊은부모'], desc: '유아동 동반 세대가 많아 넓은 유모차 동선 확보에 유리한 곳', color: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)', lat: 37.6427, lng: 126.6664, footTraffic: '약 13,000명', households: '반경 500m 내 4,200세대', competitors: '11개', mainDemographic: '유모차를 동반한 유아동 및 초등학생 자녀를 둔 부모' },
+  { id: 1, title: '판교 백현동 카페거리', location: '경기 성남시 분당구', size: '35평', floor: '1층', deposit: '1억', rent: '450만', premium: '5000만', salePrice: '15억', tags: ['#고급배후세대', '#넓은테라스'], desc: '판교 신도시의 구매력 높은 배후 세대를 둔 검증된 상권', color: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', lat: 37.3879, lng: 127.1121, footTraffic: '약 15,000명', households: '반경 500m 내 3,200세대', competitors: '12개', mainDemographic: '20~30대 직장인 및 여성 비율 높음', link: 'https://land.naver.com/' },
+  { id: 2, title: '광교 카페거리', location: '경기 수원시 영통구', size: '32평', floor: '1층', deposit: '8000만', rent: '400만', premium: '3000만', salePrice: '12억', tags: ['#자연친화', '#브런치'], desc: '광교호수공원으로 이어지는 쾌적하고 자연 친화적인 상권', color: 'linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%)', lat: 37.2913, lng: 127.0456, footTraffic: '약 12,000명', households: '반경 500m 내 4,500세대', competitors: '8개', mainDemographic: '30대 초중반 신혼부부 및 가족 단위', link: 'https://land.naver.com/' },
+  { id: 3, title: '동탄2신도시 호수공원', location: '경기 화성시', size: '40평', floor: '2층', deposit: '7000만', rent: '350만', premium: '없음', salePrice: '매매 불가(임대 전용)', tags: ['#젊은부부', '#대형공간'], desc: '30~40대 젊은 부부 비율이 높은 신도시 핵심 상권', color: 'linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%)', lat: 37.1685, lng: 127.1082, footTraffic: '약 18,000명', households: '반경 500m 내 8,000세대', competitors: '15개', mainDemographic: '30~40대 유아동 동반 가족 단위', link: 'https://land.naver.com/' },
+  { id: 4, title: '일산 밤리단길', location: '경기 고양시 일산동구', size: '30평', floor: '1층', deposit: '5000만', rent: '300만', premium: '4000만', salePrice: '9억', tags: ['#핫플레이스', '#감성카페'], desc: '저층 단독주택단지 사이사이에 형성된 일산 최고 핫플레이스', color: 'linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%)', lat: 37.6695, lng: 126.7820, footTraffic: '약 8,000명', households: '주택단지 밀집 구역 (세대수 유동적)', competitors: '20개 이상', mainDemographic: '20대 커플 및 30대 핫플 탐방객', link: 'https://land.naver.com/' },
+  { id: 5, title: '보정동 카페거리', location: '경기 용인시 기흥구', size: '38평', floor: '1층', deposit: '1억', rent: '500만', premium: '8000만', salePrice: '16억', tags: ['#대학상권', '#이국적'], desc: '아파트 단지와 단국대 학생 수요를 동시에 확보한 상권', color: 'linear-gradient(135deg, #fccb90 0%, #d57eeb 100%)', lat: 37.3204, lng: 127.1098, footTraffic: '약 14,000명', households: '반경 500m 내 2,800세대', competitors: '18개', mainDemographic: '단국대 대학생 및 인근 아파트 40대 주민', link: 'https://land.naver.com/' },
+  { id: 6, title: '위례 서일로 카페거리', location: '경기 하남시 위례동', size: '35평', floor: '1층', deposit: '6000만', rent: '380만', premium: '2000만', salePrice: '10억 5천만', tags: ['#가족단위', '#반려견'], desc: '위례신도시 창곡천을 따라 다가구 주택 1층에 늘어선 상권', color: 'linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%)', lat: 37.4725, lng: 127.1432, footTraffic: '약 10,000명', households: '반경 500m 내 5,200세대', competitors: '10개', mainDemographic: '반려견 동반 30대 산책족 및 주부', link: 'https://land.naver.com/' },
+  { id: 7, title: '미사강변도시 망월천', location: '경기 하남시 망월동', size: '33평', floor: '1.5층', deposit: '5000만', rent: '350만', premium: '1000만', salePrice: '매매 불가(임대 전용)', tags: ['#수변조망', '#뷰맛집'], desc: '망월천 수변공원 조망이 가능한 상가주택 지역', color: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)', lat: 37.5683, lng: 127.1895, footTraffic: '약 9,500명', households: '반경 500m 내 6,000세대', competitors: '14개', mainDemographic: '데이트하는 20대 커플 및 산책하는 지역 주민', link: 'https://land.naver.com/' },
+  { id: 8, title: '별내 카페거리', location: '경기 남양주시 별내동', size: '40평', floor: '1층', deposit: '8000만', rent: '420만', premium: '6000만', salePrice: '13억', tags: ['#주차편리', '#넓은공간'], desc: '용암천을 따라 형성되어 서울 동북권 유입이 많은 특화 거리', color: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)', lat: 37.6436, lng: 127.1166, footTraffic: '약 11,000명', households: '반경 500m 내 3,800세대', competitors: '9개', mainDemographic: '서울 북동부 거주 30~40대 및 주말 드라이브 객', link: 'https://land.naver.com/' },
+  { id: 9, title: '운정신도시 동패동', location: '경기 파주시 동패동', size: '36평', floor: '1층', deposit: '4000만', rent: '250만', premium: '없음', salePrice: '8억', tags: ['#합리적임대료', '#신흥상권'], desc: '대규모 신도시의 높은 소비력을 흡수할 수 있는 상가주택 상권', color: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)', lat: 37.7126, lng: 126.7423, footTraffic: '약 7,000명', households: '반경 500m 내 7,500세대', competitors: '5개', mainDemographic: '합리적 소비를 지향하는 신도시 30대 초기 입주자', link: 'https://land.naver.com/' },
+  { id: 10, title: '장기동 라베니체 인근', location: '경기 김포시 장기동', size: '38평', floor: '1층', deposit: '4500만', rent: '280만', premium: '1000만', salePrice: '8억 5천만', tags: ['#키즈프렌들리', '#젊은부모'], desc: '유아동 동반 세대가 많아 넓은 유모차 동선 확보에 유리한 곳', color: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)', lat: 37.6427, lng: 126.6664, footTraffic: '약 13,000명', households: '반경 500m 내 4,200세대', competitors: '11개', mainDemographic: '유모차를 동반한 유아동 및 초등학생 자녀를 둔 부모', link: 'https://land.naver.com/' },
 ];
 
 export default function Location() {
@@ -122,16 +124,16 @@ export default function Location() {
                     <Typography variant="subtitle2" sx={{ fontWeight: 'bold', mb: 1 }}>{item.title}</Typography>
                     <Typography variant="body2" sx={{ color: '#64748b', mb: 1 }}>{item.location}</Typography>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
+                      <Typography variant="caption" color="text.secondary">면적/층수</Typography>
+                      <Typography variant="caption" sx={{ fontWeight: 'bold' }}>{item.size}/{item.floor}</Typography>
+                    </Box>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
                       <Typography variant="caption" color="text.secondary">보증금/월세</Typography>
                       <Typography variant="caption" sx={{ fontWeight: 'bold' }}>{item.deposit}/{item.rent}</Typography>
                     </Box>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
                       <Typography variant="caption" color="text.secondary">매매가</Typography>
                       <Typography variant="caption" sx={{ fontWeight: 'bold', color: '#0284c7' }}>{item.salePrice}</Typography>
-                    </Box>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                      <Typography variant="caption" color="text.secondary">유동인구</Typography>
-                      <Typography variant="caption" sx={{ fontWeight: 'bold' }}>{item.footTraffic}</Typography>
                     </Box>
                   </Box>
                 </Popup>
@@ -146,7 +148,7 @@ export default function Location() {
               key={item.id} 
               sx={{ 
                 perspective: '1500px', 
-                minHeight: 480 
+                minHeight: 490 
               }}
             >
               <Box 
@@ -184,12 +186,37 @@ export default function Location() {
                     <Avatar sx={{ position: 'absolute', bottom: -24, left: 24, width: 56, height: 56, bgcolor: 'white', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', color: '#0f172a' }}>
                       <StorefrontIcon />
                     </Avatar>
-                    <IconButton 
-                      onClick={(e) => { e.stopPropagation(); toggleLike(item.id); }}
-                      sx={{ position: 'absolute', top: 12, right: 12, bgcolor: 'rgba(255,255,255,0.3)', backdropFilter: 'blur(4px)', color: likes[item.id] ? '#ef4444' : 'white', '&:hover': { bgcolor: 'rgba(255,255,255,0.5)' } }}
-                    >
-                      {likes[item.id] ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-                    </IconButton>
+                    
+                    {/* 링크 아이콘 버튼 추가 */}
+                    <Box sx={{ position: 'absolute', top: 12, right: 12, display: 'flex', gap: 1 }}>
+                      <Tooltip title="부동산 매물 링크 열기">
+                        <IconButton 
+                          onClick={(e) => { 
+                            e.stopPropagation(); 
+                            window.open(item.link, '_blank'); 
+                          }}
+                          sx={{ 
+                            bgcolor: 'rgba(255,255,255,0.3)', 
+                            backdropFilter: 'blur(4px)', 
+                            color: 'white', 
+                            '&:hover': { bgcolor: 'rgba(255,255,255,0.5)' } 
+                          }}
+                        >
+                          <OpenInNewIcon fontSize="small" />
+                        </IconButton>
+                      </Tooltip>
+                      <IconButton 
+                        onClick={(e) => { e.stopPropagation(); toggleLike(item.id); }}
+                        sx={{ 
+                          bgcolor: 'rgba(255,255,255,0.3)', 
+                          backdropFilter: 'blur(4px)', 
+                          color: likes[item.id] ? '#ef4444' : 'white', 
+                          '&:hover': { bgcolor: 'rgba(255,255,255,0.5)' } 
+                        }}
+                      >
+                        {likes[item.id] ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                      </IconButton>
+                    </Box>
                   </Box>
 
                   <CardContent sx={{ pt: 5, pb: 3, px: 3, flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
@@ -216,13 +243,20 @@ export default function Location() {
 
                     <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 2 }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                        <SquareFootIcon sx={{ color: '#94a3b8', fontSize: 18 }} />
+                        <Box>
+                          <Typography variant="caption" sx={{ color: '#94a3b8', display: 'block', lineHeight: 1 }}>면적/층수</Typography>
+                          <Typography variant="body2" sx={{ fontWeight: 600, color: '#334155' }}>{item.size} / {item.floor}</Typography>
+                        </Box>
+                      </Box>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                         <AttachMoneyIcon sx={{ color: '#94a3b8', fontSize: 18 }} />
                         <Box>
                           <Typography variant="caption" sx={{ color: '#94a3b8', display: 'block', lineHeight: 1 }}>보증금/월세</Typography>
                           <Typography variant="body2" sx={{ fontWeight: 600, color: '#334155' }}>{item.deposit} / {item.rent}</Typography>
                         </Box>
                       </Box>
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, gridColumn: 'span 2', mt: 0.5 }}>
                         <StorefrontIcon sx={{ color: '#0ea5e9', fontSize: 18 }} />
                         <Box>
                           <Typography variant="caption" sx={{ color: '#0ea5e9', display: 'block', lineHeight: 1 }}>매매가</Typography>
@@ -231,7 +265,7 @@ export default function Location() {
                       </Box>
                     </Box>
                     
-                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 3 }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
                       <Tooltip title="클릭하여 상세 상권 분석 보기">
                         <Chip 
                           label="상세 분석 보기" 
