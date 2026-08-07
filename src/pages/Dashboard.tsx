@@ -85,15 +85,14 @@ export default function Dashboard() {
     const columnTasks = tasks.filter(t => t.status === status);
     
     return (
-      <Grid size={{ xs: 12, md: 4 }}>
+      <Grid size={{ xs: 12, md: 4 }} sx={{ display: 'flex', flexDirection: 'column' }}>
         <Paper elevation={0} sx={{ 
-          p: 2, 
-          bgcolor: 'rgba(255, 255, 255, 0.7)', 
-          backdropFilter: 'blur(10px)',
-          borderRadius: 4, 
-          border: '1px solid rgba(255,255,255,0.8)', 
-          minHeight: 400,
-          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)'
+          p: 2.5, 
+          bgcolor: 'white', 
+          borderRadius: 3, 
+          border: '1px solid rgba(0,0,0,0.05)', 
+          flex: 1,
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.02)'
         }}>
           <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, pb: 1, borderBottom: `2px solid ${color}` }}>
             <Typography variant="h6" sx={{ fontWeight: 'bold', flexGrow: 1, color: '#1e293b' }}>{title}</Typography>
@@ -107,8 +106,8 @@ export default function Dashboard() {
           )}
 
           {columnTasks.map(task => (
-            <Card key={task.id} sx={{ mb: 2, boxShadow: 1, '&:hover': { boxShadow: 3 } }}>
-              <CardContent sx={{ p: '16px !important' }}>
+            <Card key={task.id} elevation={0} sx={{ mb: 2, border: '1px solid rgba(0,0,0,0.08)', borderRadius: 2, '&:hover': { borderColor: color } }}>
+              <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
                 <Typography variant="body1" sx={{ mb: 1.5, wordBreak: 'break-word' }}>
                   {task.content}
                 </Typography>
@@ -143,32 +142,7 @@ export default function Dashboard() {
   };
 
   return (
-    <Box sx={{
-      minHeight: '100vh',
-      backgroundImage: `url('/bg-workspace.jpg')`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundAttachment: 'fixed',
-      position: 'relative',
-      p: { xs: 2, md: 4 },
-      // Negative margins to counteract Layout's padding if necessary, 
-      // but assuming Layout provides a full width container.
-      mx: -3, // Counteract Layout padding to make background full width
-      my: -3,
-    }}>
-      {/* 반투명 오버레이 */}
-      <Box sx={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backgroundColor: 'rgba(255, 255, 255, 0.45)',
-        backdropFilter: 'blur(2px)',
-        zIndex: 0
-      }} />
-
-      {/* 실제 컨텐츠 */}
+    <Box sx={{ p: { xs: 1, md: 2 } }}>
       <Box sx={{ position: 'relative', zIndex: 1 }}>
         <Box sx={{ mb: 4 }}>
           <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 1, color: '#1e293b' }}>
@@ -186,16 +160,16 @@ export default function Dashboard() {
             <Card sx={{ 
               borderRadius: 4, 
               bgcolor: 'white',
-              boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)'
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)'
             }}>
-              <CardContent sx={{ p: 3 }}>
+              <CardContent sx={{ p: 3, '&:last-child': { pb: 3 } }}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                   <Box>
-                    <Typography variant="subtitle1" sx={{ fontWeight: 600, color: '#64748b', mb: 1 }}>
+                    <Typography variant="subtitle2" sx={{ fontWeight: 600, color: '#64748b', mb: 1 }}>
                       해야 할 일
                     </Typography>
-                    <Typography variant="h3" sx={{ fontWeight: 'bold', color: '#0f172a' }}>
-                      {todoCount}건
+                    <Typography variant="h4" sx={{ fontWeight: 'bold', color: '#0f172a' }}>
+                      {todoCount}
                     </Typography>
                   </Box>
                   <Box sx={{ bgcolor: '#fee2e2', p: 1.5, borderRadius: 3 }}>
@@ -211,16 +185,16 @@ export default function Dashboard() {
             <Card sx={{ 
               borderRadius: 4, 
               bgcolor: 'white',
-              boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)'
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)'
             }}>
-              <CardContent sx={{ p: 3 }}>
+              <CardContent sx={{ p: 3, '&:last-child': { pb: 3 } }}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                   <Box>
-                    <Typography variant="subtitle1" sx={{ fontWeight: 600, color: '#64748b', mb: 1 }}>
+                    <Typography variant="subtitle2" sx={{ fontWeight: 600, color: '#64748b', mb: 1 }}>
                       진행 중인 일
                     </Typography>
-                    <Typography variant="h3" sx={{ fontWeight: 'bold', color: '#0f172a' }}>
-                      {inProgressCount}건
+                    <Typography variant="h4" sx={{ fontWeight: 'bold', color: '#0f172a' }}>
+                      {inProgressCount}
                     </Typography>
                   </Box>
                   <Box sx={{ bgcolor: '#fef3c7', p: 1.5, borderRadius: 3 }}>
@@ -236,16 +210,16 @@ export default function Dashboard() {
             <Card sx={{ 
               borderRadius: 4, 
               bgcolor: 'white',
-              boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)'
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)'
             }}>
-              <CardContent sx={{ p: 3 }}>
+              <CardContent sx={{ p: 3, '&:last-child': { pb: 3 } }}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                   <Box>
-                    <Typography variant="subtitle1" sx={{ fontWeight: 600, color: '#64748b', mb: 1 }}>
+                    <Typography variant="subtitle2" sx={{ fontWeight: 600, color: '#64748b', mb: 1 }}>
                       완료된 일
                     </Typography>
-                    <Typography variant="h3" sx={{ fontWeight: 'bold', color: '#0f172a' }}>
-                      {doneCount}건
+                    <Typography variant="h4" sx={{ fontWeight: 'bold', color: '#0f172a' }}>
+                      {doneCount}
                     </Typography>
                   </Box>
                   <Box sx={{ bgcolor: '#d1fae5', p: 1.5, borderRadius: 3 }}>
@@ -257,10 +231,10 @@ export default function Dashboard() {
           </Grid>
         </Grid>
 
-        <Divider sx={{ mb: 4, borderColor: 'rgba(0,0,0,0.1)' }} />
+        <Divider sx={{ mb: 4, borderColor: 'rgba(0,0,0,0.05)' }} />
 
       {/* 2. 하단 할 일 관리 (칸반 보드) */}
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Typography variant="h6" sx={{ fontWeight: 'bold', color: '#1e293b' }}>
           📌 실무 할 일 관리 (Kanban)
         </Typography>
@@ -272,10 +246,9 @@ export default function Dashboard() {
             value={newTask}
             onChange={(e) => setNewTask(e.target.value)}
             sx={{ 
-              minWidth: { sm: 300 }, 
-              bgcolor: 'rgba(255,255,255,0.8)', 
+              minWidth: { xs: '100%', sm: 300 }, 
+              bgcolor: 'white', 
               borderRadius: 1,
-              backdropFilter: 'blur(4px)'
             }}
           />
           <Button 

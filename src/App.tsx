@@ -20,17 +20,17 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#795548', // Brown (Cafe vibe)
+      main: '#0f172a', // Sleek dark slate for modern look
     },
     secondary: {
-      main: '#ffb74d', // Orange
+      main: '#3b82f6', // Bright blue for secondary actions
     },
     background: {
-      default: '#f5f5f5',
+      default: '#f8f9fa', // Clean light gray background
     },
   },
   typography: {
-    fontFamily: '"Pretendard", "Roboto", "Helvetica", "Arial", sans-serif',
+    fontFamily: '"Pretendard", "Inter", "Roboto", "Helvetica", "Arial", sans-serif',
   },
 });
 

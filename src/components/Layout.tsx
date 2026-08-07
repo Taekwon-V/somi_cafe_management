@@ -45,14 +45,14 @@ export default function Layout() {
   };
 
   const drawer = (
-    <Box sx={{ bgcolor: '#1e293b', color: 'white', height: '100%' }}>
+    <Box sx={{ bgcolor: 'white', color: '#1e293b', height: '100%', borderRight: '1px solid rgba(0,0,0,0.08)' }}>
       <Toolbar sx={{ mb: 2, mt: 1 }}>
-        <LocalCafeIcon sx={{ mr: 1, color: 'white' }} />
-        <Typography variant="h6" noWrap component="div" sx={{ fontWeight: 'bold', color: 'white' }}>
+        <LocalCafeIcon sx={{ mr: 1, color: '#0f172a' }} />
+        <Typography variant="h6" noWrap component="div" sx={{ fontWeight: 'bold', color: '#0f172a' }}>
           Café Pulse
         </Typography>
       </Toolbar>
-      <List sx={{ px: 1 }}>
+      <List sx={{ px: 2 }}>
         {menuItems.map((item) => (
           <ListItem key={item.text} disablePadding sx={{ mb: 0.5 }}>
             <ListItemButton
@@ -63,14 +63,15 @@ export default function Layout() {
               }}
               sx={{
                 borderRadius: 2,
+                color: location.pathname === item.path ? '#0f172a' : '#64748b',
                 '&.Mui-selected': {
-                  bgcolor: 'rgba(255,255,255,0.15)',
-                  '&:hover': { bgcolor: 'rgba(255,255,255,0.25)' }
+                  bgcolor: '#f1f5f9',
+                  '&:hover': { bgcolor: '#e2e8f0' }
                 },
-                '&:hover': { bgcolor: 'rgba(255,255,255,0.08)' }
+                '&:hover': { bgcolor: '#f8f9fa' }
               }}
             >
-              <ListItemIcon sx={{ color: location.pathname === item.path ? 'white' : 'rgba(255,255,255,0.7)', minWidth: 40 }}>
+              <ListItemIcon sx={{ color: location.pathname === item.path ? '#0f172a' : '#94a3b8', minWidth: 40 }}>
                 {item.icon}
               </ListItemIcon>
               <ListItemText
@@ -92,12 +93,13 @@ export default function Layout() {
       <CssBaseline />
       <AppBar
         position="fixed"
+        elevation={0}
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
-          bgcolor: 'background.paper',
-          color: 'text.primary',
-          boxShadow: 1,
+          bgcolor: 'background.default',
+          color: '#1e293b',
+          borderBottom: '1px solid rgba(0,0,0,0.05)',
         }}
       >
         <Toolbar>
@@ -138,7 +140,7 @@ export default function Layout() {
           }}
           sx={{
             display: { xs: 'block', sm: 'none' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, bgcolor: '#1e293b' },
+            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, bgcolor: 'transparent' },
           }}
         >
           {drawer}
@@ -148,7 +150,7 @@ export default function Layout() {
           variant="permanent"
           sx={{
             display: { xs: 'none', sm: 'block' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, borderRight: 'none', bgcolor: '#1e293b' },
+            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, borderRight: 'none', bgcolor: 'transparent' },
           }}
           open
         >
@@ -157,7 +159,7 @@ export default function Layout() {
       </Box>
       <Box
         component="main"
-        sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` }, bgcolor: '#f5f5f5', minHeight: '100vh' }}
+        sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` }, bgcolor: 'transparent', minHeight: '100vh' }}
       >
         <Toolbar />
         <Outlet />
