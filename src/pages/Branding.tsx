@@ -121,24 +121,21 @@ export default function Branding() {
         </Tabs>
       </Box>
 
-      <Container maxWidth="lg" sx={{ py: 6 }}>
+      <Container maxWidth="lg" sx={{ py: 3 }}>
         {activeProposal && (
           <>
             {/* 요약본 헤더 (Summary Header) */}
-            <Paper elevation={0} sx={{ p: 4, mb: 6, borderRadius: 4, border: '1px solid #e0e0e0', bgcolor: '#fff' }}>
-              <Typography variant="h5" sx={{ fontWeight: 800, color: '#111', mb: 3, letterSpacing: '-0.02em' }}>
-                💡 기획안 요약 보드
-              </Typography>
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            <Paper elevation={0} sx={{ p: 2.5, mb: 3, borderRadius: 3, border: '1px solid #e0e0e0', bgcolor: '#fff' }}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                 {activeProposal.cards.map(card => (
-                  <Box key={`summary-${card.id}`} sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
+                  <Box key={`summary-${card.id}`} sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
                     <Box sx={{ 
-                      px: 1.5, py: 0.5, bgcolor: '#f0f0f0', borderRadius: 2, 
-                      minWidth: '130px', textAlign: 'center', fontWeight: 700, color: '#555', fontSize: '0.85rem' 
+                      px: 1, py: 0.25, bgcolor: '#f0f0f0', borderRadius: 1.5, 
+                      minWidth: '110px', textAlign: 'center', fontWeight: 700, color: '#555', fontSize: '0.75rem' 
                     }}>
-                      {card.title}
+                      {card.title.split(' ')[0]} {/* 핵심 정체성, 타겟 고객 등으로 짧게 표시 */}
                     </Box>
-                    <Typography variant="body1" sx={{ color: '#333', pt: 0.25, fontWeight: 500 }}>
+                    <Typography variant="body2" sx={{ color: '#333', fontWeight: 500 }}>
                       {card.summarySentence || '아직 요약이 작성되지 않았습니다.'}
                     </Typography>
                   </Box>
@@ -146,13 +143,8 @@ export default function Branding() {
               </Box>
             </Paper>
 
-            <Divider sx={{ my: 6, borderColor: '#eaeaea' }} />
-
             {/* 2x2 갤러리 그리드 */}
-            <Typography variant="h5" sx={{ fontWeight: 800, color: '#111', mb: 4, letterSpacing: '-0.02em' }}>
-              🎨 세부 갤러리 
-            </Typography>
-            <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)' }, gap: 4 }}>
+            <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)' }, gap: 2 }}>
               {activeProposal.cards.map(card => (
                 <Box key={card.id}>
                   <BrandingGalleryCard card={card} onClick={() => handleCardClick(card.id)} />

@@ -24,16 +24,16 @@ export default function BrandingGalleryCard({ card, onClick }: BrandingGalleryCa
       <CardActionArea onClick={onClick} sx={{ height: '100%' }}>
         <CardMedia
           component="img"
-          height="200"
+          height="140"
           image={card.thumbnailUrl}
           alt={card.title}
           sx={{ objectFit: 'cover' }}
         />
-        <CardContent sx={{ p: 3 }}>
-          <Typography variant="h6" sx={{ fontWeight: 700, mb: 1, fontSize: '1.25rem', color: '#111', letterSpacing: '-0.01em' }}>
+        <CardContent sx={{ p: 2 }}>
+          <Typography variant="subtitle1" sx={{ fontWeight: 700, mb: 0.5, color: '#111', letterSpacing: '-0.01em' }}>
             {card.title}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="caption" color="text.secondary">
             {card.fields.length}개의 세부 항목
           </Typography>
         </CardContent>
