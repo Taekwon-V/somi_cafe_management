@@ -88,11 +88,12 @@ export default function Dashboard() {
       <Grid size={{ xs: 12, md: 4 }} sx={{ display: 'flex', flexDirection: 'column' }}>
         <Paper elevation={0} sx={{ 
           p: 2.5, 
-          bgcolor: 'white', 
+          bgcolor: 'rgba(255, 255, 255, 0.65)', 
+          backdropFilter: 'blur(20px)',
           borderRadius: 3, 
-          border: '1px solid rgba(0,0,0,0.05)', 
+          border: '1px solid rgba(255, 255, 255, 0.5)', 
           flex: 1,
-          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.02)'
+          boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.05)'
         }}>
           <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, pb: 1, borderBottom: `2px solid ${color}` }}>
             <Typography variant="h6" sx={{ fontWeight: 'bold', flexGrow: 1, color: '#1e293b' }}>{title}</Typography>
@@ -106,7 +107,7 @@ export default function Dashboard() {
           )}
 
           {columnTasks.map(task => (
-            <Card key={task.id} elevation={0} sx={{ mb: 2, border: '1px solid rgba(0,0,0,0.08)', borderRadius: 2, '&:hover': { borderColor: color } }}>
+            <Card key={task.id} elevation={0} sx={{ mb: 2, bgcolor: 'rgba(255, 255, 255, 0.85)', border: '1px solid rgba(255,255,255,0.8)', borderRadius: 2, '&:hover': { borderColor: color, boxShadow: '0 4px 12px rgba(0,0,0,0.05)' } }}>
               <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
                 <Typography variant="body1" sx={{ mb: 1.5, wordBreak: 'break-word' }}>
                   {task.content}
@@ -159,8 +160,10 @@ export default function Dashboard() {
           <Grid size={{ xs: 12, sm: 4 }}>
             <Card sx={{ 
               borderRadius: 4, 
-              bgcolor: 'white',
-              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)'
+              bgcolor: 'rgba(255, 255, 255, 0.65)',
+              backdropFilter: 'blur(20px)',
+              border: '1px solid rgba(255, 255, 255, 0.5)',
+              boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.05)'
             }}>
               <CardContent sx={{ p: 3, '&:last-child': { pb: 3 } }}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
@@ -184,8 +187,10 @@ export default function Dashboard() {
           <Grid size={{ xs: 12, sm: 4 }}>
             <Card sx={{ 
               borderRadius: 4, 
-              bgcolor: 'white',
-              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)'
+              bgcolor: 'rgba(255, 255, 255, 0.65)',
+              backdropFilter: 'blur(20px)',
+              border: '1px solid rgba(255, 255, 255, 0.5)',
+              boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.05)'
             }}>
               <CardContent sx={{ p: 3, '&:last-child': { pb: 3 } }}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
@@ -209,8 +214,10 @@ export default function Dashboard() {
           <Grid size={{ xs: 12, sm: 4 }}>
             <Card sx={{ 
               borderRadius: 4, 
-              bgcolor: 'white',
-              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)'
+              bgcolor: 'rgba(255, 255, 255, 0.65)',
+              backdropFilter: 'blur(20px)',
+              border: '1px solid rgba(255, 255, 255, 0.5)',
+              boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.05)'
             }}>
               <CardContent sx={{ p: 3, '&:last-child': { pb: 3 } }}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
@@ -247,8 +254,10 @@ export default function Dashboard() {
             onChange={(e) => setNewTask(e.target.value)}
             sx={{ 
               minWidth: { xs: '100%', sm: 300 }, 
-              bgcolor: 'white', 
+              bgcolor: 'rgba(255, 255, 255, 0.6)', 
+              backdropFilter: 'blur(10px)',
               borderRadius: 1,
+              border: '1px solid rgba(255, 255, 255, 0.5)'
             }}
           />
           <Button 
