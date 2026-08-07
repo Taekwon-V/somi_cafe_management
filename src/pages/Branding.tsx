@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
-import { Box, Typography, Container, Grid, CircularProgress } from '@mui/material';
+import { Box, Typography, Container, CircularProgress } from '@mui/material';
 import { collection, onSnapshot, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import type { GalleryCardData } from '../types/branding';
@@ -93,7 +93,7 @@ export default function Branding() {
           </Typography>
         </Box>
 
-        <Box display="grid" gridTemplateColumns={{ xs: '1fr', sm: '1fr 1fr', md: 'repeat(3, 1fr)' }} gap={4}>
+        <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr', md: 'repeat(3, 1fr)' }, gap: 4 }}>
           {cards.map(card => (
             <Box key={card.id}>
               <BrandingGalleryCard card={card} onClick={() => handleCardClick(card.id)} />
