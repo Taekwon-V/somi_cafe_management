@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
-import { Box, Typography, Container, CircularProgress, Tabs, Tab, Paper, Divider } from '@mui/material';
+import { Box, Typography, Container, CircularProgress, Tabs, Tab, Paper } from '@mui/material';
 import { collection, onSnapshot, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import type { BrandingProposal, GalleryCardData } from '../types/branding';
