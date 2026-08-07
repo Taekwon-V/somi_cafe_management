@@ -110,8 +110,10 @@ export default function Branding() {
         <Tabs 
           value={activeTabId} 
           onChange={(_, newValue) => setActiveTabId(newValue)}
-          TabIndicatorProps={{ sx: { height: 3, borderRadius: '3px 3px 0 0', bgcolor: '#111' } }}
-          sx={{ '& .MuiTab-root': { fontWeight: 600, fontSize: '1rem', color: '#888', '&.Mui-selected': { color: '#111' } } }}
+          sx={{ 
+            '& .MuiTabs-indicator': { height: 3, borderRadius: '3px 3px 0 0', bgcolor: '#111' },
+            '& .MuiTab-root': { fontWeight: 600, fontSize: '1rem', color: '#888', '&.Mui-selected': { color: '#111' } } 
+          }}
         >
           {proposals.map(p => (
             <Tab key={p.id} value={p.id} label={p.title} />
