@@ -13,9 +13,9 @@ import { useAuth } from '../context/AuthContext';
 
 // Dummy data for Recent Updates
 const recentUpdates = [
-  { id: 1, category: '인테리어', text: '모던 코지 컨셉 래퍼런스 이미지 추가', time: '2시간 전', icon: <BrushIcon sx={{ color: '#ef4444' }} />, color: '#fee2e2' },
-  { id: 2, category: '메뉴 및 레시피', text: '시그니처 아인슈페너 원가 계산 업데이트', time: '5시간 전', icon: <RestaurantMenuIcon sx={{ color: '#f59e0b' }} />, color: '#fef3c7' },
-  { id: 3, category: '브랜딩', text: '로고 스케치 초안 3종 업로드', time: '1일 전', icon: <CampaignIcon sx={{ color: '#10b981' }} />, color: '#d1fae5' },
+  { id: 1, category: '브랜딩', text: 'A안 (The Venue: 프리미엄 재즈 살롱) 기획안 쇼케이스 완료', time: '방금 전', icon: <CampaignIcon sx={{ color: '#10b981' }} />, color: '#d1fae5' },
+  { id: 2, category: '메뉴 및 레시피', text: '수준 높은 모닝 커피 & 묵직한 에스프레소 베리에이션 리스트업', time: '2시간 전', icon: <RestaurantMenuIcon sx={{ color: '#f59e0b' }} />, color: '#fef3c7' },
+  { id: 3, category: '인테리어', text: '어쿠스틱 룸(흡음재) 및 딥 월넛 가구 견적서 1차 검토', time: '1일 전', icon: <BrushIcon sx={{ color: '#ef4444' }} />, color: '#fee2e2' },
 ];
 
 export default function Dashboard() {
@@ -74,8 +74,8 @@ export default function Dashboard() {
               >
                 <CardMedia
                   component="img"
-                  image="/images/modern_cozy_cafe.jpg"
-                  alt="Modern Cozy Cafe Vision"
+                  image="/images/the_venue_vision.jpg"
+                  alt="The Venue Vision Board"
                   sx={{ 
                     maxHeight: 400, 
                     objectFit: 'cover',
@@ -174,13 +174,13 @@ export default function Dashboard() {
         <DialogContent sx={{ p: 0, pb: 4, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <Box sx={{ width: '100%', p: 3, display: 'flex', justifyContent: 'center' }}>
             <img 
-              src="/images/modern_cozy_cafe.jpg" 
+              src="/images/the_venue_vision.jpg" 
               alt="Gallery" 
               style={{ maxWidth: '100%', maxHeight: '60vh', objectFit: 'contain', borderRadius: '8px' }} 
             />
           </Box>
           <Typography variant="body1" sx={{ color: '#cbd5e1', mt: 2 }}>
-            v2026.08.07 - 모던 코지 컨셉 초안
+            v2026.08.07 - 기획안 A: The Venue (프리미엄 재즈 살롱) 
           </Typography>
           
           <Divider sx={{ width: '80%', my: 3, borderColor: 'rgba(255,255,255,0.1)' }} />
