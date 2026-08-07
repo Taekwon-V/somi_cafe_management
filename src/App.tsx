@@ -1,10 +1,21 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Layout from './components/Layout';
 import Dashboard from './pages/Dashboard';
 import Interior from './pages/Interior';
 import Menu from './pages/Menu';
 import Branding from './pages/Branding';
+import Login from './pages/Login';
+import Admin from './pages/Admin';
+import { AuthProvider, useAuth } from './context/AuthContext';
+
+function ProtectedRoute({ children }: { children: React.ReactNode }) {
+  const { user, isAllowed } = useAuth();
+  if (!user || !isAllowed) {
+    return <Navigate to="/login" replace />;
+  }
+  return <>{children}</>;
+}
 
 const theme = createTheme({
   palette: {
@@ -26,16 +37,20 @@ const theme = createTheme({
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Dashboard />} />
-            <Route path="interior" element={<Interior />} />
-            <Route path="menu" element={<Menu />} />
-            <Route path="branding" element={<Branding />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <AuthProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
+              <Route index element={<Dashboard />} />
+              <Route path="interior" element={<Interior />} />
+              <Route path="menu" element={<Menu />} />
+              <Route path="branding" element={<Branding />} />
+              <Route path="admin" element={<Admin />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
     </ThemeProvider>
   );
 }

@@ -13,14 +13,17 @@ import {
   ListItemText,
   Toolbar,
   Typography,
+  Button,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ChairIcon from '@mui/icons-material/Chair';
 import LocalCafeIcon from '@mui/icons-material/LocalCafe';
 import CampaignIcon from '@mui/icons-material/Campaign';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import SettingsIcon from '@mui/icons-material/Settings';
+import LogoutIcon from '@mui/icons-material/Logout';
 import { useState } from 'react';
+import { useAuth } from '../context/AuthContext';
 
 const drawerWidth = 240;
 
@@ -29,12 +32,14 @@ const menuItems = [
   { text: '인테리어/공간', path: '/interior', icon: <ChairIcon /> },
   { text: '메뉴/레시피', path: '/menu', icon: <LocalCafeIcon /> },
   { text: '브랜딩/마케팅', path: '/branding', icon: <CampaignIcon /> },
+  { text: '멤버 권한 관리', path: '/admin', icon: <SettingsIcon /> },
 ];
 
 export default function Layout() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const { user, logout } = useAuth();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -101,9 +106,14 @@ export default function Layout() {
           <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, fontWeight: 'bold' }}>
             {menuItems.find(item => item.path === location.pathname)?.text || 'Somi Cafe Management'}
           </Typography>
-          <IconButton color="primary">
-            <AccountCircleIcon />
-          </IconButton>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Typography variant="body2" sx={{ mr: 2, display: { xs: 'none', sm: 'block' } }}>
+              {user?.email}
+            </Typography>
+            <Button color="inherit" onClick={logout} startIcon={<LogoutIcon />}>
+              로그아웃
+            </Button>
+          </Box>
         </Toolbar>
       </AppBar>
       <Box
