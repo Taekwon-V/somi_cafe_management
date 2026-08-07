@@ -26,6 +26,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import BgmPlayer from './BgmPlayer';
 
 const drawerWidth = 240;
 
@@ -204,6 +205,7 @@ export default function Layout() {
           <Toolbar />
           <Outlet />
         </Box>
+        <BgmPlayer />
       </Box>
     </Box>
   );
