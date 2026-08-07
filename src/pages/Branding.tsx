@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Box, CircularProgress } from '@mui/material';
 import { collection, onSnapshot, doc, setDoc, deleteDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import BrandingSidebar from '../components/BrandingSidebar';
 import BrandingEditor from '../components/BrandingEditor';
-import { BrandingDoc } from '../types/branding';
+import type { BrandingDoc } from '../types/branding';
 
 export default function Branding() {
   const [docs, setDocs] = useState<BrandingDoc[]>([]);
@@ -69,7 +69,7 @@ export default function Branding() {
 
   // 디바운스된 업데이트 함수 (API 호출 낭비 방지)
   const debounce = (func: Function, wait: number) => {
-    let timeout: NodeJS.Timeout;
+    let timeout: ReturnType<typeof setTimeout>;
     return (...args: any[]) => {
       clearTimeout(timeout);
       timeout = setTimeout(() => func(...args), wait);

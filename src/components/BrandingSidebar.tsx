@@ -7,7 +7,7 @@ import {
   ExpandLess, ExpandMore, Add as AddIcon, 
   Folder as FolderIcon, Description as DocIcon, Delete as DeleteIcon 
 } from '@mui/icons-material';
-import { BrandingDoc } from '../types/branding';
+import type { BrandingDoc } from '../types/branding';
 
 interface BrandingSidebarProps {
   docs: BrandingDoc[];
@@ -48,7 +48,7 @@ export default function BrandingSidebar({ docs, selectedDocId, onSelectDoc, onAd
   return (
     <Box sx={{ width: 280, borderRight: '1px solid #e0e0e0', height: '100%', display: 'flex', flexDirection: 'column', bgcolor: 'background.paper', flexShrink: 0 }}>
       <Box sx={{ p: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #e0e0e0' }}>
-        <Typography variant="subtitle1" fontWeight="bold">브랜딩 문서</Typography>
+        <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>브랜딩 문서</Typography>
         <IconButton size="small" onClick={() => openAddDialog('folder', null)} title="새 카테고리 추가">
           <AddIcon />
         </IconButton>
@@ -71,7 +71,7 @@ export default function BrandingSidebar({ docs, selectedDocId, onSelectDoc, onAd
             >
               <ListItemButton onClick={() => handleToggleFolder(folder.id)} sx={{ pl: 2 }}>
                 <FolderIcon sx={{ mr: 1, color: 'text.secondary', fontSize: 20 }} />
-                <ListItemText primary={folder.title} primaryTypographyProps={{ variant: 'body2', fontWeight: 'medium' }} />
+                <ListItemText primary={<Typography variant="body2" sx={{ fontWeight: 'medium' }}>{folder.title}</Typography>} />
                 {openFolders[folder.id] ? <ExpandLess fontSize="small" /> : <ExpandMore fontSize="small" />}
               </ListItemButton>
             </ListItem>
@@ -93,7 +93,7 @@ export default function BrandingSidebar({ docs, selectedDocId, onSelectDoc, onAd
                       onClick={() => onSelectDoc(doc.id)}
                     >
                       <DocIcon sx={{ mr: 1, color: 'text.secondary', fontSize: 18 }} />
-                      <ListItemText primary={doc.title} primaryTypographyProps={{ variant: 'body2' }} />
+                      <ListItemText primary={<Typography variant="body2">{doc.title}</Typography>} />
                     </ListItemButton>
                   </ListItem>
                 ))}

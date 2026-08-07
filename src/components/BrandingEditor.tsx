@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Box, TextField, Typography } from '@mui/material';
+import { Box, Input, Typography } from '@mui/material';
 import MDEditor from '@uiw/react-md-editor';
-import { BrandingDoc } from '../types/branding';
+import type { BrandingDoc } from '../types/branding';
 
 interface BrandingEditorProps {
   doc: BrandingDoc | null;
@@ -44,15 +44,12 @@ export default function BrandingEditor({ doc, onUpdateTitle, onUpdateContent }: 
   return (
     <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', height: '100%', overflow: 'hidden', bgcolor: 'background.paper' }}>
       <Box sx={{ px: 4, py: 3, borderBottom: '1px solid #e0e0e0' }}>
-        <TextField
-          variant="standard"
+        <Input
           fullWidth
+          disableUnderline
           value={title}
           onChange={handleTitleChange}
-          InputProps={{
-            disableUnderline: true,
-            style: { fontSize: '2rem', fontWeight: 'bold' }
-          }}
+          sx={{ fontSize: '2rem', fontWeight: 'bold' }}
           placeholder="제목 없음"
         />
       </Box>
