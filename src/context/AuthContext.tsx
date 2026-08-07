@@ -56,8 +56,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const login = async () => {
     try {
       await signInWithPopup(auth, googleProvider);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Login failed", error);
+      alert(`로그인 실패: ${error.message}\n(브라우저 팝업 차단을 해제하거나, Firebase 승인된 도메인 설정을 확인해주세요.)`);
     }
   };
 
