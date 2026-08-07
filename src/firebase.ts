@@ -3,12 +3,13 @@ import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID
+  apiKey: "AIzaSyBtuS0tTv8X0aZKLEAm2vENgFXU35cw90M",
+  authDomain: "somi-cafe-management.firebaseapp.com",
+  projectId: "somi-cafe-management",
+  storageBucket: "somi-cafe-management.firebasestorage.app",
+  messagingSenderId: "332429514474",
+  appId: "1:332429514474:web:bb78737ec63ada3231a993",
+  measurementId: "G-L45QJ0772D"
 };
 
 const app = initializeApp(firebaseConfig);
