@@ -15,7 +15,9 @@ const db = getFirestore(app);
 
 const proposals = [
   {
-    title: "기획안 A: The Venue (프리미엄 재즈 살롱)",
+    title: "A안",
+    conceptTitle: "The Venue",
+    conceptSubtitle: "프리미엄 재즈 살롱",
     cards: [
       {
         id: "core",
@@ -60,7 +62,9 @@ const proposals = [
     ]
   },
   {
-    title: "B안 (미니멀 화이트 커뮤니티형)",
+    title: "B안",
+    conceptTitle: "B안 컨셉",
+    conceptSubtitle: "미니멀 화이트 커뮤니티형",
     cards: [
       {
         id: "core",

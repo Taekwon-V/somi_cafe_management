@@ -111,14 +111,17 @@ export default function Branding() {
           value={activeTabId} 
           onChange={(_, newValue) => setActiveTabId(newValue)}
           sx={{ 
-            '& .MuiTabs-indicator': { height: 3, borderRadius: '3px 3px 0 0', bgcolor: '#111' },
-            '& .MuiTab-root': { fontWeight: 600, fontSize: '0.95rem', color: '#888', whiteSpace: 'nowrap', '&.Mui-selected': { color: '#111' } } 
+            '& .MuiTabs-indicator': { height: 3, bgcolor: '#111' },
+            '& .MuiTab-root': { 
+              fontWeight: 600, fontSize: '1rem', color: '#888', 
+              minWidth: '120px',
+              '&.Mui-selected': { color: '#111', bgcolor: '#FBE9E7' } 
+            } 
           }}
         >
-          {proposals.map(p => {
-            const mainTitle = p.title.split('(')[0].trim();
-            return <Tab key={p.id} value={p.id} label={mainTitle} />;
-          })}
+          {proposals.map(p => (
+            <Tab key={p.id} value={p.id} label={p.title} />
+          ))}
         </Tabs>
       </Box>
 
@@ -126,13 +129,22 @@ export default function Branding() {
         <Container maxWidth="lg" sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
           {activeProposal && (
             <>
+              {/* 컨셉 타이틀 헤더 */}
+              {activeProposal.conceptTitle && (
+                <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 2, mb: 2, px: 1 }}>
+                  <Typography variant="h5" sx={{ fontWeight: 900, color: '#111', letterSpacing: '-0.02em' }}>
+                    {activeProposal.conceptTitle}
+                  </Typography>
+                  {activeProposal.conceptSubtitle && (
+                    <Typography variant="subtitle1" sx={{ fontWeight: 800, color: '#333' }}>
+                      {activeProposal.conceptSubtitle}
+                    </Typography>
+                  )}
+                </Box>
+              )}
+
               {/* 요약본 헤더 (Summary Header) */}
               <Paper elevation={0} sx={{ p: 3, mb: 4, borderRadius: 3, border: '1px solid #e0e0e0', bgcolor: '#fff' }}>
-                {activeProposal.title.includes('(') && (
-                  <Typography variant="h6" sx={{ fontWeight: 800, color: '#111', mb: 2, letterSpacing: '-0.02em', borderBottom: '2px solid #111', display: 'inline-block', pb: 0.5 }}>
-                    {activeProposal.title.split('(')[1].replace(')', '')}
-                  </Typography>
-                )}
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                 {activeProposal.cards.map(card => (
                   <Box key={`summary-${card.id}`} sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>

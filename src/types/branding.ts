@@ -15,7 +15,9 @@ export interface GalleryCardData {
 
 export interface BrandingProposal {
   id: string;
-  title: string; // e.g. 'A안 (모던 빈티지)', 'B안 (미니멀 화이트)'
+  title: string; // e.g. 'A안', 'B안' (탭 제목)
+  conceptTitle?: string; // e.g. 'The Venue'
+  conceptSubtitle?: string; // e.g. '프리미엄 재즈 살롱'
   cards: GalleryCardData[]; // 항상 4개 고정
   updatedAt: number;
 }
