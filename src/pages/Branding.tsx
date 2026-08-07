@@ -93,13 +93,13 @@ export default function Branding() {
           </Typography>
         </Box>
 
-        <Grid container spacing={4}>
+        <Box display="grid" gridTemplateColumns={{ xs: '1fr', sm: '1fr 1fr', md: 'repeat(3, 1fr)' }} gap={4}>
           {cards.map(card => (
-            <Grid item xs={12} sm={6} md={4} key={card.id}>
+            <Box key={card.id}>
               <BrandingGalleryCard card={card} onClick={() => handleCardClick(card.id)} />
-            </Grid>
+            </Box>
           ))}
-        </Grid>
+        </Box>
       </Container>
 
       <BrandingDrawer 
