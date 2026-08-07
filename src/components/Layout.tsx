@@ -206,9 +206,11 @@ export default function Layout() {
             position="sticky"
             elevation={0}
             sx={{
-              bgcolor: 'transparent',
-              color: '#1e293b',
-              borderBottom: '1px solid rgba(0,0,0,0.05)',
+              bgcolor: '#1e293b', // 사이드바 선택 메뉴 배경색과 통일
+              color: 'white', // 글자색 통일
+              borderBottom: 'none',
+              borderTopLeftRadius: { xs: 0, md: 16 }, // 부모 Box의 borderRadius(4) = 16px 에 맞춤
+              borderTopRightRadius: { xs: 0, md: 16 },
               px: { xs: 0, md: 2 }
             }}
           >
@@ -222,9 +224,14 @@ export default function Layout() {
               >
                 <MenuIcon />
               </IconButton>
-              <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, fontWeight: 'bold' }}>
-                {menuItems.find(item => item.path === location.pathname)?.text || 'Somi Cafe Management'}
-              </Typography>
+              <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}>
+                <Box sx={{ display: 'flex', color: '#38bdf8', mr: 1.5 }}>
+                  {menuItems.find(item => item.path === location.pathname)?.icon || <DashboardIcon />}
+                </Box>
+                <Typography variant="h6" noWrap component="div" sx={{ fontWeight: 'bold' }}>
+                  {menuItems.find(item => item.path === location.pathname)?.text || 'Somi Cafe Management'}
+                </Typography>
+              </Box>
             </Toolbar>
           </AppBar>
 
