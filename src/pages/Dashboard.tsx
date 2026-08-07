@@ -86,9 +86,17 @@ export default function Dashboard() {
     
     return (
       <Grid size={{ xs: 12, md: 4 }}>
-        <Paper elevation={0} sx={{ p: 2, bgcolor: 'background.default', borderRadius: 2, border: '1px solid #e0e0e0', minHeight: 400 }}>
+        <Paper elevation={0} sx={{ 
+          p: 2, 
+          bgcolor: 'rgba(255, 255, 255, 0.7)', 
+          backdropFilter: 'blur(10px)',
+          borderRadius: 4, 
+          border: '1px solid rgba(255,255,255,0.8)', 
+          minHeight: 400,
+          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)'
+        }}>
           <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, pb: 1, borderBottom: `2px solid ${color}` }}>
-            <Typography variant="h6" sx={{ fontWeight: 'bold', flexGrow: 1 }}>{title}</Typography>
+            <Typography variant="h6" sx={{ fontWeight: 'bold', flexGrow: 1, color: '#1e293b' }}>{title}</Typography>
             <Chip label={columnTasks.length} size="small" sx={{ bgcolor: color, color: 'white', fontWeight: 'bold' }} />
           </Box>
           
@@ -135,96 +143,125 @@ export default function Dashboard() {
   };
 
   return (
-    <Box>
-      <Box sx={{ mb: 4 }}>
-        <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 1 }}>
-          환영합니다, {user?.email?.split('@')[0]}님! 👋
-        </Typography>
-        <Typography variant="body1" color="text.secondary">
-          현재 창업 준비 현황을 확인해보세요.
-        </Typography>
-      </Box>
-      
-      {/* 1. 상단 요약 대시보드 */}
-      <Grid container spacing={3} sx={{ mb: 5 }}>
-        {/* 해야 할 일 카드 */}
-        <Grid size={{ xs: 12, sm: 4 }}>
-          <Card sx={{ 
-            borderRadius: 4, 
-            background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
-            color: 'white',
-            boxShadow: '0 10px 15px -3px rgba(239, 68, 68, 0.4)'
-          }}>
-            <CardContent sx={{ p: 3 }}>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                <Box>
-                  <Typography variant="subtitle1" sx={{ fontWeight: 500, opacity: 0.9, mb: 1 }}>
-                    해야 할 일
-                  </Typography>
-                  <Typography variant="h3" sx={{ fontWeight: 'bold' }}>
-                    {todoCount}건
-                  </Typography>
-                </Box>
-                <ChairIcon sx={{ fontSize: 40, opacity: 0.8 }} />
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
+    <Box sx={{
+      minHeight: '100vh',
+      backgroundImage: `url('/bg-workspace.jpg')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundAttachment: 'fixed',
+      position: 'relative',
+      p: { xs: 2, md: 4 },
+      // Negative margins to counteract Layout's padding if necessary, 
+      // but assuming Layout provides a full width container.
+      mx: -3, // Counteract Layout padding to make background full width
+      my: -3,
+    }}>
+      {/* 반투명 오버레이 */}
+      <Box sx={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(255, 255, 255, 0.45)',
+        backdropFilter: 'blur(2px)',
+        zIndex: 0
+      }} />
+
+      {/* 실제 컨텐츠 */}
+      <Box sx={{ position: 'relative', zIndex: 1 }}>
+        <Box sx={{ mb: 4 }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 1, color: '#1e293b' }}>
+            환영합니다, {user?.email?.split('@')[0]}님! 👋
+          </Typography>
+          <Typography variant="body1" sx={{ color: '#475569', fontWeight: 500 }}>
+            현재 창업 준비 현황을 확인해보세요.
+          </Typography>
+        </Box>
         
-        {/* 진행 중인 일 카드 */}
-        <Grid size={{ xs: 12, sm: 4 }}>
-          <Card sx={{ 
-            borderRadius: 4, 
-            background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
-            color: 'white',
-            boxShadow: '0 10px 15px -3px rgba(245, 158, 11, 0.4)'
-          }}>
-            <CardContent sx={{ p: 3 }}>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                <Box>
-                  <Typography variant="subtitle1" sx={{ fontWeight: 500, opacity: 0.9, mb: 1 }}>
-                    진행 중인 일
-                  </Typography>
-                  <Typography variant="h3" sx={{ fontWeight: 'bold' }}>
-                    {inProgressCount}건
-                  </Typography>
+        {/* 1. 상단 요약 대시보드 */}
+        <Grid container spacing={3} sx={{ mb: 5 }}>
+          {/* 해야 할 일 카드 */}
+          <Grid size={{ xs: 12, sm: 4 }}>
+            <Card sx={{ 
+              borderRadius: 4, 
+              bgcolor: 'white',
+              boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)'
+            }}>
+              <CardContent sx={{ p: 3 }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                  <Box>
+                    <Typography variant="subtitle1" sx={{ fontWeight: 600, color: '#64748b', mb: 1 }}>
+                      해야 할 일
+                    </Typography>
+                    <Typography variant="h3" sx={{ fontWeight: 'bold', color: '#0f172a' }}>
+                      {todoCount}건
+                    </Typography>
+                  </Box>
+                  <Box sx={{ bgcolor: '#fee2e2', p: 1.5, borderRadius: 3 }}>
+                    <ChairIcon sx={{ fontSize: 32, color: '#ef4444' }} />
+                  </Box>
                 </Box>
-                <LocalCafeIcon sx={{ fontSize: 40, opacity: 0.8 }} />
-              </Box>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </Grid>
+          
+          {/* 진행 중인 일 카드 */}
+          <Grid size={{ xs: 12, sm: 4 }}>
+            <Card sx={{ 
+              borderRadius: 4, 
+              bgcolor: 'white',
+              boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)'
+            }}>
+              <CardContent sx={{ p: 3 }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                  <Box>
+                    <Typography variant="subtitle1" sx={{ fontWeight: 600, color: '#64748b', mb: 1 }}>
+                      진행 중인 일
+                    </Typography>
+                    <Typography variant="h3" sx={{ fontWeight: 'bold', color: '#0f172a' }}>
+                      {inProgressCount}건
+                    </Typography>
+                  </Box>
+                  <Box sx={{ bgcolor: '#fef3c7', p: 1.5, borderRadius: 3 }}>
+                    <LocalCafeIcon sx={{ fontSize: 32, color: '#f59e0b' }} />
+                  </Box>
+                </Box>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          {/* 완료된 일 카드 */}
+          <Grid size={{ xs: 12, sm: 4 }}>
+            <Card sx={{ 
+              borderRadius: 4, 
+              bgcolor: 'white',
+              boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)'
+            }}>
+              <CardContent sx={{ p: 3 }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                  <Box>
+                    <Typography variant="subtitle1" sx={{ fontWeight: 600, color: '#64748b', mb: 1 }}>
+                      완료된 일
+                    </Typography>
+                    <Typography variant="h3" sx={{ fontWeight: 'bold', color: '#0f172a' }}>
+                      {doneCount}건
+                    </Typography>
+                  </Box>
+                  <Box sx={{ bgcolor: '#d1fae5', p: 1.5, borderRadius: 3 }}>
+                    <CampaignIcon sx={{ fontSize: 32, color: '#10b981' }} />
+                  </Box>
+                </Box>
+              </CardContent>
+            </Card>
+          </Grid>
         </Grid>
 
-        {/* 완료된 일 카드 */}
-        <Grid size={{ xs: 12, sm: 4 }}>
-          <Card sx={{ 
-            borderRadius: 4, 
-            background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
-            color: 'white',
-            boxShadow: '0 10px 15px -3px rgba(16, 185, 129, 0.4)'
-          }}>
-            <CardContent sx={{ p: 3 }}>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                <Box>
-                  <Typography variant="subtitle1" sx={{ fontWeight: 500, opacity: 0.9, mb: 1 }}>
-                    완료된 일
-                  </Typography>
-                  <Typography variant="h3" sx={{ fontWeight: 'bold' }}>
-                    {doneCount}건
-                  </Typography>
-                </Box>
-                <CampaignIcon sx={{ fontSize: 40, opacity: 0.8 }} />
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
-      </Grid>
-
-      <Divider sx={{ mb: 4 }} />
+        <Divider sx={{ mb: 4, borderColor: 'rgba(0,0,0,0.1)' }} />
 
       {/* 2. 하단 할 일 관리 (칸반 보드) */}
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-        <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+        <Typography variant="h6" sx={{ fontWeight: 'bold', color: '#1e293b' }}>
           📌 실무 할 일 관리 (Kanban)
         </Typography>
         
@@ -234,13 +271,19 @@ export default function Dashboard() {
             placeholder="새로운 할 일을 입력하세요..." 
             value={newTask}
             onChange={(e) => setNewTask(e.target.value)}
-            sx={{ minWidth: { sm: 300 }, bgcolor: 'white' }}
+            sx={{ 
+              minWidth: { sm: 300 }, 
+              bgcolor: 'rgba(255,255,255,0.8)', 
+              borderRadius: 1,
+              backdropFilter: 'blur(4px)'
+            }}
           />
           <Button 
             type="submit" 
             variant="contained" 
             disabled={!newTask.trim()}
             startIcon={<AddIcon />}
+            sx={{ bgcolor: '#0f172a', '&:hover': { bgcolor: '#334155' } }}
           >
             추가
           </Button>
@@ -248,11 +291,12 @@ export default function Dashboard() {
       </Box>
 
       <Grid container spacing={2}>
-        {renderKanbanColumn('할 일 (To-Do)', 'todo', '#f44336')}
-        {renderKanbanColumn('진행 중 (In Progress)', 'in-progress', '#ff9800')}
-        {renderKanbanColumn('완료 (Done)', 'done', '#4caf50')}
+        {renderKanbanColumn('할 일 (To-Do)', 'todo', '#ef4444')}
+        {renderKanbanColumn('진행 중 (In Progress)', 'in-progress', '#f59e0b')}
+        {renderKanbanColumn('완료 (Done)', 'done', '#10b981')}
       </Grid>
       
+      </Box>
     </Box>
   );
 }
