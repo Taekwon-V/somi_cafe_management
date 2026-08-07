@@ -1,29 +1,13 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import { Box, Typography, Container, CircularProgress, Tabs, Tab, Paper } from '@mui/material';
-import { collection, onSnapshot, doc, updateDoc } from 'firebase/firestore';
+import { collection, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebase';
-import type { BrandingProposal, GalleryCardData } from '../types/branding';
+import type { BrandingProposal } from '../types/branding';
 import BrandingGalleryCard from '../components/BrandingGalleryCard';
-import BrandingDrawer from '../components/BrandingDrawer';
-
-// Debounce helper for Firebase writes
-function debounce(func: Function, wait: number) {
-  let timeout: ReturnType<typeof setTimeout>;
-  return function executedFunction(...args: any[]) {
-    const later = () => {
-      clearTimeout(timeout);
-      func(...args);
-    };
-    clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
-  };
-}
 
 export default function Branding() {
   const [proposals, setProposals] = useState<BrandingProposal[]>([]);
   const [activeTabId, setActiveTabId] = useState<string | false>(false);
-  const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
-  const [drawerOpen, setDrawerOpen] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -45,54 +29,6 @@ export default function Branding() {
   }, [activeTabId]);
 
   const activeProposal = proposals.find(p => p.id === activeTabId) || null;
-  const selectedCard = activeProposal?.cards.find(c => c.id === selectedCardId) || null;
-
-  const handleCardClick = (cardId: string) => {
-    setSelectedCardId(cardId);
-    setDrawerOpen(true);
-  };
-
-  const debouncedUpdateFirebase = useCallback(
-    debounce(async (proposalId: string, updatedCards: GalleryCardData[]) => {
-      try {
-        const ref = doc(db, 'branding_proposals', proposalId);
-        await updateDoc(ref, { cards: updatedCards, updatedAt: Date.now() });
-      } catch (error) {
-        console.error("Error updating document: ", error);
-      }
-    }, 1000),
-    []
-  );
-
-  const handleUpdateField = (fieldId: string, newValue: string) => {
-    if (!activeProposal || !selectedCardId) return;
-
-    const newCards = activeProposal.cards.map(card => {
-      if (card.id === selectedCardId) {
-        const newFields = card.fields.map(f => f.id === fieldId ? { ...f, value: newValue } : f);
-        return { ...card, fields: newFields };
-      }
-      return card;
-    });
-
-    // Optimistic Update
-    setProposals(prev => prev.map(p => p.id === activeProposal.id ? { ...p, cards: newCards } : p));
-    debouncedUpdateFirebase(activeProposal.id, newCards);
-  };
-
-  const handleUpdateSummary = (newValue: string) => {
-    if (!activeProposal || !selectedCardId) return;
-
-    const newCards = activeProposal.cards.map(card => {
-      if (card.id === selectedCardId) {
-        return { ...card, summarySentence: newValue };
-      }
-      return card;
-    });
-
-    setProposals(prev => prev.map(p => p.id === activeProposal.id ? { ...p, cards: newCards } : p));
-    debouncedUpdateFirebase(activeProposal.id, newCards);
-  };
 
   if (loading) {
     return (
@@ -115,7 +51,7 @@ export default function Branding() {
             '& .MuiTab-root': { 
               fontWeight: 600, fontSize: '1rem', color: '#888', 
               minWidth: '120px',
-              '&.Mui-selected': { color: '#111', bgcolor: '#FBE9E7' } 
+              '&.Mui-selected': { color: '#111', bgcolor: '#f0f0f0' } 
             } 
           }}
         >
@@ -166,7 +102,7 @@ export default function Branding() {
               <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)' }, gap: 4 }}>
                 {activeProposal.cards.map(card => (
                   <Box key={card.id}>
-                    <BrandingGalleryCard card={card} onClick={() => handleCardClick(card.id)} />
+                    <BrandingGalleryCard card={card} />
                   </Box>
                 ))}
               </Box>
@@ -174,14 +110,6 @@ export default function Branding() {
           )}
         </Container>
       </Box>
-
-      <BrandingDrawer 
-        open={drawerOpen}
-        card={selectedCard}
-        onClose={() => setDrawerOpen(false)}
-        onUpdateField={handleUpdateField}
-        onUpdateSummary={handleUpdateSummary}
-      />
     </Box>
   );
 }

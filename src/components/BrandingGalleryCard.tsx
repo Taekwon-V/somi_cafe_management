@@ -1,43 +1,54 @@
-import { Card, CardActionArea, CardMedia, CardContent, Typography } from '@mui/material';
+import { Card, CardMedia, CardContent, Typography, Box } from '@mui/material';
 import type { GalleryCardData } from '../types/branding';
 
 interface BrandingGalleryCardProps {
   card: GalleryCardData;
-  onClick: () => void;
 }
 
-export default function BrandingGalleryCard({ card, onClick }: BrandingGalleryCardProps) {
+export default function BrandingGalleryCard({ card }: BrandingGalleryCardProps) {
   return (
     <Card 
       elevation={0}
       sx={{ 
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
         borderRadius: 4, 
         border: '1px solid #eaeaea',
+        bgcolor: '#fff',
         transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
         '&:hover': {
-          transform: 'translateY(-8px)',
-          boxShadow: '0 16px 32px -10px rgba(0,0,0,0.15)',
+          transform: 'translateY(-4px)',
+          boxShadow: '0 16px 32px -10px rgba(0,0,0,0.1)',
           borderColor: 'transparent'
         }
       }}
     >
-      <CardActionArea onClick={onClick} sx={{ height: '100%' }}>
-        <CardMedia
-          component="img"
-          height="180"
-          image={card.thumbnailUrl}
-          alt={card.title}
-          sx={{ objectFit: 'cover' }}
-        />
-        <CardContent sx={{ p: 2.5 }}>
-          <Typography variant="h6" sx={{ fontWeight: 700, mb: 0.5, fontSize: '1.15rem', color: '#111', letterSpacing: '-0.01em' }}>
-            {card.title}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {card.fields.length}개의 세부 항목
-          </Typography>
-        </CardContent>
-      </CardActionArea>
+      <CardMedia
+        component="img"
+        height="220"
+        image={card.thumbnailUrl}
+        alt={card.title}
+        sx={{ objectFit: 'cover' }}
+      />
+      <CardContent sx={{ p: 4, flexGrow: 1, display: 'flex', flexDirection: 'column', gap: 3 }}>
+        <Typography variant="h5" sx={{ fontWeight: 800, color: '#111', letterSpacing: '-0.02em', borderBottom: '2px solid #f0f0f0', pb: 2 }}>
+          {card.title}
+        </Typography>
+
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
+          {card.fields.map((field) => (
+            <Box key={field.id}>
+              <Typography variant="subtitle2" sx={{ fontWeight: 700, color: '#666', mb: 0.5, letterSpacing: '-0.01em' }}>
+                {field.label}
+              </Typography>
+              <Typography variant="body1" sx={{ color: '#222', lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>
+                {field.value}
+              </Typography>
+            </Box>
+          ))}
+        </Box>
+      </CardContent>
     </Card>
   );
 }
