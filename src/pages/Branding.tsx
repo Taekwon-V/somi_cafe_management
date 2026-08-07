@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Box, Typography, Container, CircularProgress, Tabs, Tab, Paper } from '@mui/material';
+import { Box, Typography, Container, CircularProgress, Tabs, Tab, Paper, Avatar } from '@mui/material';
 import { collection, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebase';
 import type { BrandingProposal } from '../types/branding';
@@ -67,15 +67,24 @@ export default function Branding() {
             <>
               {/* 컨셉 타이틀 헤더 */}
               {activeProposal.conceptTitle && (
-                <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 2, mb: 2, px: 1 }}>
-                  <Typography variant="h5" sx={{ fontWeight: 900, color: '#111', letterSpacing: '-0.02em' }}>
-                    {activeProposal.conceptTitle}
-                  </Typography>
-                  {activeProposal.conceptSubtitle && (
-                    <Typography variant="subtitle1" sx={{ fontWeight: 800, color: '#333' }}>
-                      {activeProposal.conceptSubtitle}
-                    </Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2.5, mb: 3, px: 1 }}>
+                  {activeProposal.logoUrl && (
+                    <Avatar 
+                      src={activeProposal.logoUrl} 
+                      alt="Brand Logo" 
+                      sx={{ width: 56, height: 56, border: '1px solid #eaeaea', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }} 
+                    />
                   )}
+                  <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 2 }}>
+                    <Typography variant="h5" sx={{ fontWeight: 900, color: '#111', letterSpacing: '-0.02em' }}>
+                      {activeProposal.conceptTitle}
+                    </Typography>
+                    {activeProposal.conceptSubtitle && (
+                      <Typography variant="subtitle1" sx={{ fontWeight: 800, color: '#333' }}>
+                        {activeProposal.conceptSubtitle}
+                      </Typography>
+                    )}
+                  </Box>
                 </Box>
               )}
 

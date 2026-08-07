@@ -17,15 +17,16 @@ const proposals = [
   {
     title: "A안",
     conceptTitle: "The Venue",
-    conceptSubtitle: "프리미엄 재즈 살롱",
+    conceptSubtitle: "재즈가 흐르는 프리미엄 카페",
+    logoUrl: "/images/the_venue_logo.jpg",
     cards: [
       {
         id: "core",
         title: "핵심 정체성 (Core Identity)",
         thumbnailUrl: "https://images.unsplash.com/photo-1559305616-3f99cd43e353?auto=format&fit=crop&q=80&w=800",
-        summarySentence: "바쁜 일상의 속도를 늦추고, 커피 향과 재즈 선율 속에서 온전히 머무는 어른들의 안식처",
+        summarySentence: "바쁜 일상의 속도를 늦추고, 수준 높은 커피 향과 잔잔한 재즈 선율 속에 머무는 어른들의 안식처",
         fields: [
-          { id: "mission", label: "브랜드 미션 (Mission)", type: "textarea", value: "도심의 소음에서 벗어나, 1~2인의 손님이 자신만의 속도(Slow)로 깊은 대화나 사색을 즐길 수 있는 밀도 높은 시간을 제공한다." },
+          { id: "mission", label: "브랜드 미션 (Mission)", type: "textarea", value: "도심의 소음에서 벗어나, 1~2인의 손님이 맛있는 스페셜티 커피와 함께 자신만의 속도(Slow)로 깊은 대화나 사색을 즐길 수 있는 밀도 높은 시간을 제공한다." },
           { id: "vision", label: "브랜드 비전 (Vision)", type: "textarea", value: "단순한 카페를 넘어, 성숙한 취향의 어른들이 언제든 찾아와 위로를 받는 프라이빗한 아지트(Venue)가 된다." }
         ]
       },
@@ -33,10 +34,10 @@ const proposals = [
         id: "target",
         title: "타겟 고객 및 차별화 (Target & USP)",
         thumbnailUrl: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=800",
-        summarySentence: "번잡함을 피해 수준 높은 휴식을 찾는 20대 중반 ~ 40대",
+        summarySentence: "번잡함을 피해 수준 높은 커피와 휴식을 찾는 20대 중반 ~ 40대",
         fields: [
           { id: "primary_target", label: "주요 타겟 (Primary)", type: "textarea", value: "왁자지껄한 대형 카페에 지쳐, 아침의 여유로운 '모닝커피'나 퇴근 후 차분한 시간을 원하는 성숙한 취향의 고객들 (어포더블 프리미엄 지향)" },
-          { id: "usp", label: "차별화 강점 (USP)", type: "textarea", value: "1. 참여형 재즈 플레이리스트(신청곡 시스템)\n2. 소리가 울리지 않도록 어쿠스틱 케어(흡음재)가 완비된 청각적 안락함\n3. 1인 손님과 소통이 가능한 바(Bar) 테이블 운영" }
+          { id: "usp", label: "차별화 강점 (USP)", type: "textarea", value: "1. 묵직한 바디감의 수준 높은 시그니처 커피 라인업\n2. 커피의 향을 돋워주는 큐레이션 재즈 플레이리스트\n3. 소리가 울리지 않도록 어쿠스틱 케어(흡음재)가 완비된 안락한 공간" }
         ]
       },
       {
