@@ -140,29 +140,88 @@ export default function Dashboard() {
 
   return (
     <Box>
-      <Typography variant="h5" sx={{ mb: 3, fontWeight: 'bold' }}>
-        현재 창업 준비 현황 🚀
-      </Typography>
+      <Box sx={{ mb: 4 }}>
+        <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 1 }}>
+          환영합니다, {user?.email?.split('@')[0]}님! 👋
+        </Typography>
+        <Typography variant="body1" color="text.secondary">
+          현재 창업 준비 현황을 확인해보세요.
+        </Typography>
+      </Box>
       
       {/* 1. 상단 요약 대시보드 */}
       <Grid container spacing={3} sx={{ mb: 5 }}>
-        {summaryData.map((data, index) => (
-          <Grid size={{ xs: 12, sm: 4 }} key={index}>
-            <Card sx={{ boxShadow: 2, borderRadius: 3 }}>
-              <CardContent sx={{ display: 'flex', alignItems: 'center', p: 3 }}>
-                <Box sx={{ mr: 2 }}>{data.icon}</Box>
+        {/* 해야 할 일 카드 */}
+        <Grid size={{ xs: 12, sm: 4 }}>
+          <Card sx={{ 
+            borderRadius: 4, 
+            background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
+            color: 'white',
+            boxShadow: '0 10px 15px -3px rgba(239, 68, 68, 0.4)'
+          }}>
+            <CardContent sx={{ p: 3 }}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                 <Box>
-                  <Typography variant="subtitle2" color="text.secondary">
-                    {data.title}
+                  <Typography variant="subtitle1" sx={{ fontWeight: 500, opacity: 0.9, mb: 1 }}>
+                    해야 할 일
                   </Typography>
-                  <Typography variant="h4" sx={{ fontWeight: 'bold' }}>
-                    {data.count}건
+                  <Typography variant="h3" sx={{ fontWeight: 'bold' }}>
+                    {todoCount}건
                   </Typography>
                 </Box>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
+                <ChairIcon sx={{ fontSize: 40, opacity: 0.8 }} />
+              </Box>
+            </CardContent>
+          </Card>
+        </Grid>
+        
+        {/* 진행 중인 일 카드 */}
+        <Grid size={{ xs: 12, sm: 4 }}>
+          <Card sx={{ 
+            borderRadius: 4, 
+            background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+            color: 'white',
+            boxShadow: '0 10px 15px -3px rgba(245, 158, 11, 0.4)'
+          }}>
+            <CardContent sx={{ p: 3 }}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                <Box>
+                  <Typography variant="subtitle1" sx={{ fontWeight: 500, opacity: 0.9, mb: 1 }}>
+                    진행 중인 일
+                  </Typography>
+                  <Typography variant="h3" sx={{ fontWeight: 'bold' }}>
+                    {inProgressCount}건
+                  </Typography>
+                </Box>
+                <LocalCafeIcon sx={{ fontSize: 40, opacity: 0.8 }} />
+              </Box>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        {/* 완료된 일 카드 */}
+        <Grid size={{ xs: 12, sm: 4 }}>
+          <Card sx={{ 
+            borderRadius: 4, 
+            background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+            color: 'white',
+            boxShadow: '0 10px 15px -3px rgba(16, 185, 129, 0.4)'
+          }}>
+            <CardContent sx={{ p: 3 }}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                <Box>
+                  <Typography variant="subtitle1" sx={{ fontWeight: 500, opacity: 0.9, mb: 1 }}>
+                    완료된 일
+                  </Typography>
+                  <Typography variant="h3" sx={{ fontWeight: 'bold' }}>
+                    {doneCount}건
+                  </Typography>
+                </Box>
+                <CampaignIcon sx={{ fontSize: 40, opacity: 0.8 }} />
+              </Box>
+            </CardContent>
+          </Card>
+        </Grid>
       </Grid>
 
       <Divider sx={{ mb: 4 }} />

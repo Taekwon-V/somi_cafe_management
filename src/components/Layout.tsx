@@ -46,29 +46,37 @@ export default function Layout() {
   };
 
   const drawer = (
-    <div>
-      <Toolbar>
-        <Typography variant="h6" noWrap component="div" sx={{ fontWeight: 'bold', color: 'primary.main' }}>
-          Somi Cafe
+    <Box sx={{ bgcolor: '#1e293b', color: 'white', height: '100%' }}>
+      <Toolbar sx={{ mb: 2, mt: 1 }}>
+        <LocalCafeIcon sx={{ mr: 1, color: 'white' }} />
+        <Typography variant="h6" noWrap component="div" sx={{ fontWeight: 'bold', color: 'white' }}>
+          Café Pulse
         </Typography>
       </Toolbar>
-      <Divider />
-      <List>
+      <List sx={{ px: 1 }}>
         {menuItems.map((item) => (
-          <ListItem key={item.text} disablePadding>
+          <ListItem key={item.text} disablePadding sx={{ mb: 0.5 }}>
             <ListItemButton
               selected={location.pathname === item.path}
               onClick={() => {
                 navigate(item.path);
                 setMobileOpen(false);
               }}
+              sx={{
+                borderRadius: 2,
+                '&.Mui-selected': {
+                  bgcolor: 'rgba(255,255,255,0.15)',
+                  '&:hover': { bgcolor: 'rgba(255,255,255,0.25)' }
+                },
+                '&:hover': { bgcolor: 'rgba(255,255,255,0.08)' }
+              }}
             >
-              <ListItemIcon sx={{ color: location.pathname === item.path ? 'primary.main' : 'inherit' }}>
+              <ListItemIcon sx={{ color: location.pathname === item.path ? 'white' : 'rgba(255,255,255,0.7)', minWidth: 40 }}>
                 {item.icon}
               </ListItemIcon>
               <ListItemText
                 primary={
-                  <Typography sx={{ fontWeight: location.pathname === item.path ? 'bold' : 'normal' }}>
+                  <Typography sx={{ fontWeight: location.pathname === item.path ? 'bold' : 'medium', fontSize: '0.95rem' }}>
                     {item.text}
                   </Typography>
                 }
@@ -77,7 +85,7 @@ export default function Layout() {
           </ListItem>
         ))}
       </List>
-    </div>
+    </Box>
   );
 
   return (
@@ -131,7 +139,7 @@ export default function Layout() {
           }}
           sx={{
             display: { xs: 'block', sm: 'none' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, bgcolor: '#1e293b' },
           }}
         >
           {drawer}
@@ -141,7 +149,7 @@ export default function Layout() {
           variant="permanent"
           sx={{
             display: { xs: 'none', sm: 'block' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, borderRight: 'none', bgcolor: '#1e293b' },
           }}
           open
         >
