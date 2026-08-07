@@ -7,6 +7,7 @@ import Menu from './pages/Menu';
 import Branding from './pages/Branding';
 import Login from './pages/Login';
 import Admin from './pages/Admin';
+import Location from './pages/Location';
 import { AuthProvider, useAuth } from './context/AuthContext';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -44,7 +45,7 @@ function App() {
             <Route path="/" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
               <Route index element={<Dashboard />} />
               <Route path="branding" element={<Branding />} />
-              <Route path="location" element={<Dashboard />} />
+              <Route path="location" element={<Location />} />
               <Route path="interior" element={<Interior />} />
               <Route path="menu" element={<Menu />} />
               <Route path="equipment" element={<Dashboard />} />
