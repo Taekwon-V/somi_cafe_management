@@ -18,7 +18,6 @@ import MapIcon from '@mui/icons-material/Map';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 import SquareFootIcon from '@mui/icons-material/SquareFoot';
 import CommentIcon from '@mui/icons-material/Comment';
 
@@ -85,9 +84,9 @@ export default function Location() {
       </Box>
 
       {/* Grid List */}
-      <Grid container spacing={3}>
+      <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' }, gap: 3 }}>
         {locationCandidates.map((item) => (
-          <Grid item xs={12} md={6} lg={4} key={item.id}>
+          <Box key={item.id}>
             <Card sx={{
               height: '100%',
               display: 'flex',
@@ -186,8 +185,8 @@ export default function Location() {
                 <Divider sx={{ mb: 2, borderColor: 'rgba(0,0,0,0.06)' }} />
 
                 {/* Specs */}
-                <Grid container spacing={2}>
-                  <Grid item xs={6}>
+                <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 2 }}>
+                  <Box>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                       <SquareFootIcon sx={{ color: '#94a3b8', fontSize: 18 }} />
                       <Box>
@@ -195,8 +194,8 @@ export default function Location() {
                         <Typography variant="body2" sx={{ fontWeight: 600, color: '#334155' }}>{item.size}</Typography>
                       </Box>
                     </Box>
-                  </Grid>
-                  <Grid item xs={6}>
+                  </Box>
+                  <Box>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                       <AttachMoneyIcon sx={{ color: '#94a3b8', fontSize: 18 }} />
                       <Box>
@@ -204,8 +203,8 @@ export default function Location() {
                         <Typography variant="body2" sx={{ fontWeight: 600, color: '#334155' }}>{item.deposit} / {item.rent}</Typography>
                       </Box>
                     </Box>
-                  </Grid>
-                </Grid>
+                  </Box>
+                </Box>
                 
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 3 }}>
                   <Tooltip title="댓글 0개">
@@ -216,9 +215,9 @@ export default function Location() {
                 </Box>
               </CardContent>
             </Card>
-          </Grid>
+          </Box>
         ))}
-      </Grid>
+      </Box>
       
       <style>
         {`
