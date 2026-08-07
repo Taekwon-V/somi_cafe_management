@@ -43,9 +43,12 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
               <Route index element={<Dashboard />} />
+              <Route path="branding" element={<Branding />} />
+              <Route path="location" element={<Dashboard />} />
               <Route path="interior" element={<Interior />} />
               <Route path="menu" element={<Menu />} />
-              <Route path="branding" element={<Branding />} />
+              <Route path="equipment" element={<Dashboard />} />
+              <Route path="finance-admin" element={<Dashboard />} />
               <Route path="admin" element={<Admin />} />
             </Route>
           </Routes>

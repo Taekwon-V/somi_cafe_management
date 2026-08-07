@@ -16,9 +16,12 @@ import {
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import PaletteIcon from '@mui/icons-material/Palette';
+import StorefrontIcon from '@mui/icons-material/Storefront';
 import ChairIcon from '@mui/icons-material/Chair';
 import LocalCafeIcon from '@mui/icons-material/LocalCafe';
-import CampaignIcon from '@mui/icons-material/Campaign';
+import CoffeeMakerIcon from '@mui/icons-material/CoffeeMaker';
+import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useState } from 'react';
@@ -28,9 +31,12 @@ const drawerWidth = 240;
 
 const menuItems = [
   { text: '대시보드', path: '/', icon: <DashboardIcon /> },
-  { text: '인테리어/공간', path: '/interior', icon: <ChairIcon /> },
-  { text: '메뉴/레시피', path: '/menu', icon: <LocalCafeIcon /> },
-  { text: '브랜딩/마케팅', path: '/branding', icon: <CampaignIcon /> },
+  { text: '브랜드 기획', path: '/branding', icon: <PaletteIcon /> },
+  { text: '상권 & 부동산', path: '/location', icon: <StorefrontIcon /> },
+  { text: '인테리어 & 시공', path: '/interior', icon: <ChairIcon /> },
+  { text: '메뉴 & 레시피', path: '/menu', icon: <LocalCafeIcon /> },
+  { text: '장비 & 집기', path: '/equipment', icon: <CoffeeMakerIcon /> },
+  { text: '재무 & 행정', path: '/finance-admin', icon: <ReceiptLongIcon /> },
   { text: '멤버 권한 관리', path: '/admin', icon: <SettingsIcon /> },
 ];
 
