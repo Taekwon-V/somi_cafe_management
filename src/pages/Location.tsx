@@ -14,35 +14,51 @@ import {
 import StorefrontIcon from '@mui/icons-material/Storefront';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import MapIcon from '@mui/icons-material/Map';
+import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import SquareFootIcon from '@mui/icons-material/SquareFoot';
 import CommentIcon from '@mui/icons-material/Comment';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
+import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
+import markerIcon from 'leaflet/dist/images/marker-icon.png';
+import markerShadow from 'leaflet/dist/images/marker-shadow.png';
+
+// Fix for default marker icon in react-leaflet
+delete (L.Icon.Default.prototype as any)._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconUrl: markerIcon,
+  iconRetinaUrl: markerIcon2x,
+  shadowUrl: markerShadow,
+});
 
 // 매물 데이터
 const locationCandidates = [
-  { id: 1, title: '판교 백현동 카페거리', location: '경기 성남시 분당구', size: '35평', deposit: '1억', rent: '450만', premium: '5000만', tags: ['#고급배후세대', '#넓은테라스'], desc: '판교 신도시의 구매력 높은 배후 세대를 둔 검증된 상권', color: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' },
-  { id: 2, title: '광교 카페거리', location: '경기 수원시 영통구', size: '32평', deposit: '8000만', rent: '400만', premium: '3000만', tags: ['#자연친화', '#브런치'], desc: '광교호수공원으로 이어지는 쾌적하고 자연 친화적인 상권', color: 'linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%)' },
-  { id: 3, title: '동탄2신도시 호수공원', location: '경기 화성시', size: '40평', deposit: '7000만', rent: '350만', premium: '없음', tags: ['#젊은부부', '#대형공간'], desc: '30~40대 젊은 부부 비율이 높은 신도시 핵심 상권', color: 'linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%)' },
-  { id: 4, title: '일산 밤리단길', location: '경기 고양시 일산동구', size: '30평', deposit: '5000만', rent: '300만', premium: '4000만', tags: ['#핫플레이스', '#감성카페'], desc: '저층 단독주택단지 사이사이에 형성된 일산 최고 핫플레이스', color: 'linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%)' },
-  { id: 5, title: '보정동 카페거리', location: '경기 용인시 기흥구', size: '38평', deposit: '1억', rent: '500만', premium: '8000만', tags: ['#대학상권', '#이국적'], desc: '아파트 단지와 단국대 학생 수요를 동시에 확보한 상권', color: 'linear-gradient(135deg, #fccb90 0%, #d57eeb 100%)' },
-  { id: 6, title: '위례 서일로 카페거리', location: '경기 하남시 위례동', size: '35평', deposit: '6000만', rent: '380만', premium: '2000만', tags: ['#가족단위', '#반려견'], desc: '위례신도시 창곡천을 따라 다가구 주택 1층에 늘어선 상권', color: 'linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%)' },
-  { id: 7, title: '미사강변도시 망월천', location: '경기 하남시 망월동', size: '33평', deposit: '5000만', rent: '350만', premium: '1000만', tags: ['#수변조망', '#뷰맛집'], desc: '망월천 수변공원 조망이 가능한 상가주택 지역', color: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)' },
-  { id: 8, title: '별내 카페거리', location: '경기 남양주시 별내동', size: '40평', deposit: '8000만', rent: '420만', premium: '6000만', tags: ['#주차편리', '#넓은공간'], desc: '용암천을 따라 형성되어 서울 동북권 유입이 많은 특화 거리', color: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)' },
-  { id: 9, title: '운정신도시 동패동', location: '경기 파주시 동패동', size: '36평', deposit: '4000만', rent: '250만', premium: '없음', tags: ['#합리적임대료', '#신흥상권'], desc: '대규모 신도시의 높은 소비력을 흡수할 수 있는 상가주택 상권', color: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)' },
-  { id: 10, title: '장기동 라베니체 인근', location: '경기 김포시 장기동', size: '38평', deposit: '4500만', rent: '280만', premium: '1000만', tags: ['#키즈프렌들리', '#젊은부모'], desc: '유아동 동반 세대가 많아 넓은 유모차 동선 확보에 유리한 곳', color: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)' },
+  { id: 1, title: '판교 백현동 카페거리', location: '경기 성남시 분당구', size: '35평', deposit: '1억', rent: '450만', premium: '5000만', tags: ['#고급배후세대', '#넓은테라스'], desc: '판교 신도시의 구매력 높은 배후 세대를 둔 검증된 상권', color: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', lat: 37.3879, lng: 127.1121 },
+  { id: 2, title: '광교 카페거리', location: '경기 수원시 영통구', size: '32평', deposit: '8000만', rent: '400만', premium: '3000만', tags: ['#자연친화', '#브런치'], desc: '광교호수공원으로 이어지는 쾌적하고 자연 친화적인 상권', color: 'linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%)', lat: 37.2913, lng: 127.0456 },
+  { id: 3, title: '동탄2신도시 호수공원', location: '경기 화성시', size: '40평', deposit: '7000만', rent: '350만', premium: '없음', tags: ['#젊은부부', '#대형공간'], desc: '30~40대 젊은 부부 비율이 높은 신도시 핵심 상권', color: 'linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%)', lat: 37.1685, lng: 127.1082 },
+  { id: 4, title: '일산 밤리단길', location: '경기 고양시 일산동구', size: '30평', deposit: '5000만', rent: '300만', premium: '4000만', tags: ['#핫플레이스', '#감성카페'], desc: '저층 단독주택단지 사이사이에 형성된 일산 최고 핫플레이스', color: 'linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%)', lat: 37.6695, lng: 126.7820 },
+  { id: 5, title: '보정동 카페거리', location: '경기 용인시 기흥구', size: '38평', deposit: '1억', rent: '500만', premium: '8000만', tags: ['#대학상권', '#이국적'], desc: '아파트 단지와 단국대 학생 수요를 동시에 확보한 상권', color: 'linear-gradient(135deg, #fccb90 0%, #d57eeb 100%)', lat: 37.3204, lng: 127.1098 },
+  { id: 6, title: '위례 서일로 카페거리', location: '경기 하남시 위례동', size: '35평', deposit: '6000만', rent: '380만', premium: '2000만', tags: ['#가족단위', '#반려견'], desc: '위례신도시 창곡천을 따라 다가구 주택 1층에 늘어선 상권', color: 'linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%)', lat: 37.4725, lng: 127.1432 },
+  { id: 7, title: '미사강변도시 망월천', location: '경기 하남시 망월동', size: '33평', deposit: '5000만', rent: '350만', premium: '1000만', tags: ['#수변조망', '#뷰맛집'], desc: '망월천 수변공원 조망이 가능한 상가주택 지역', color: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)', lat: 37.5683, lng: 127.1895 },
+  { id: 8, title: '별내 카페거리', location: '경기 남양주시 별내동', size: '40평', deposit: '8000만', rent: '420만', premium: '6000만', tags: ['#주차편리', '#넓은공간'], desc: '용암천을 따라 형성되어 서울 동북권 유입이 많은 특화 거리', color: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)', lat: 37.6436, lng: 127.1166 },
+  { id: 9, title: '운정신도시 동패동', location: '경기 파주시 동패동', size: '36평', deposit: '4000만', rent: '250만', premium: '없음', tags: ['#합리적임대료', '#신흥상권'], desc: '대규모 신도시의 높은 소비력을 흡수할 수 있는 상가주택 상권', color: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)', lat: 37.7126, lng: 126.7423 },
+  { id: 10, title: '장기동 라베니체 인근', location: '경기 김포시 장기동', size: '38평', deposit: '4500만', rent: '280만', premium: '1000만', tags: ['#키즈프렌들리', '#젊은부모'], desc: '유아동 동반 세대가 많아 넓은 유모차 동선 확보에 유리한 곳', color: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)', lat: 37.6427, lng: 126.6664 },
 ];
 
 export default function Location() {
   const [likes, setLikes] = useState<Record<number, boolean>>({});
+  const [isMapView, setIsMapView] = useState(false);
 
   const toggleLike = (id: number) => {
     setLikes(prev => ({ ...prev, [id]: !prev[id] }));
   };
 
   return (
-    <Box sx={{ animation: 'fadeIn 0.6s ease-out' }}>
+    <Box sx={{ animation: 'fadeIn 0.6s ease-out', height: '100%', display: 'flex', flexDirection: 'column' }}>
       {/* Header Section */}
       <Box sx={{ 
         display: 'flex', 
@@ -66,7 +82,8 @@ export default function Location() {
         </Box>
         <Button 
           variant="contained" 
-          startIcon={<MapIcon />}
+          startIcon={isMapView ? <ViewModuleIcon /> : <MapIcon />}
+          onClick={() => setIsMapView(!isMapView)}
           sx={{ 
             bgcolor: '#0f172a', 
             borderRadius: 3, 
@@ -78,151 +95,189 @@ export default function Location() {
             '&:hover': { bgcolor: '#1e293b' }
           }}
         >
-          지도 뷰로 보기
+          {isMapView ? '리스트 뷰로 보기' : '지도 뷰로 보기'}
         </Button>
       </Box>
 
-      {/* Grid List */}
-      <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' }, gap: 3 }}>
-        {locationCandidates.map((item) => (
-          <Box key={item.id}>
-            <Card sx={{
-              height: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-              borderRadius: 4,
-              border: 'none',
-              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-              bgcolor: 'rgba(255, 255, 255, 0.8)',
-              backdropFilter: 'blur(20px)',
-              boxShadow: '0 10px 30px rgba(0,0,0,0.04)',
-              cursor: 'pointer',
-              overflow: 'hidden',
-              position: 'relative',
-              '&:hover': {
-                transform: 'translateY(-8px)',
-                boxShadow: '0 20px 40px rgba(0,0,0,0.08)',
-                '& .header-overlay': {
-                  opacity: 0.1
+      {/* Main Content Area */}
+      {isMapView ? (
+        <Box sx={{ flexGrow: 1, borderRadius: 4, overflow: 'hidden', minHeight: 600, boxShadow: '0 10px 30px rgba(0,0,0,0.08)' }}>
+          <MapContainer center={[37.5, 127.0]} zoom={10} style={{ height: '100%', width: '100%' }}>
+            <TileLayer
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+            {locationCandidates.map(item => (
+              <Marker key={item.id} position={[item.lat, item.lng]}>
+                <Popup>
+                  <Box sx={{ p: 0.5, minWidth: 200 }}>
+                    <Typography variant="subtitle2" sx={{ fontWeight: 'bold', mb: 1 }}>{item.title}</Typography>
+                    <Typography variant="body2" sx={{ color: '#64748b', mb: 1 }}>{item.location}</Typography>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
+                      <Typography variant="caption" color="text.secondary">보증금</Typography>
+                      <Typography variant="caption" sx={{ fontWeight: 'bold' }}>{item.deposit}</Typography>
+                    </Box>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
+                      <Typography variant="caption" color="text.secondary">월세</Typography>
+                      <Typography variant="caption" sx={{ fontWeight: 'bold' }}>{item.rent}</Typography>
+                    </Box>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                      <Typography variant="caption" color="text.secondary">면적</Typography>
+                      <Typography variant="caption" sx={{ fontWeight: 'bold' }}>{item.size}</Typography>
+                    </Box>
+                  </Box>
+                </Popup>
+              </Marker>
+            ))}
+          </MapContainer>
+        </Box>
+      ) : (
+        <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' }, gap: 3 }}>
+          {locationCandidates.map((item) => (
+            <Box key={item.id}>
+              <Card sx={{
+                height: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                borderRadius: 4,
+                border: 'none',
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                bgcolor: 'rgba(255, 255, 255, 0.8)',
+                backdropFilter: 'blur(20px)',
+                boxShadow: '0 10px 30px rgba(0,0,0,0.04)',
+                cursor: 'pointer',
+                overflow: 'hidden',
+                position: 'relative',
+                '&:hover': {
+                  transform: 'translateY(-8px)',
+                  boxShadow: '0 20px 40px rgba(0,0,0,0.08)',
+                  '& .header-overlay': {
+                    opacity: 0.1
+                  }
                 }
-              }
-            }}>
-              {/* Card Header Background */}
-              <Box sx={{ 
-                height: 120, 
-                background: item.color,
-                position: 'relative'
               }}>
-                <Box className="header-overlay" sx={{
-                  position: 'absolute',
-                  inset: 0,
-                  bgcolor: 'black',
-                  opacity: 0,
-                  transition: 'opacity 0.3s'
-                }} />
-                <Avatar sx={{ 
-                  position: 'absolute', 
-                  bottom: -24, 
-                  left: 24, 
-                  width: 56, 
-                  height: 56, 
-                  bgcolor: 'white',
-                  boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-                  color: '#0f172a'
+                {/* Card Header Background */}
+                <Box sx={{ 
+                  height: 120, 
+                  background: item.color,
+                  position: 'relative'
                 }}>
-                  <StorefrontIcon />
-                </Avatar>
-                <IconButton 
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    toggleLike(item.id);
-                  }}
-                  sx={{ 
+                  <Box className="header-overlay" sx={{
+                    position: 'absolute',
+                    inset: 0,
+                    bgcolor: 'black',
+                    opacity: 0,
+                    transition: 'opacity 0.3s'
+                  }} />
+                  <Avatar sx={{ 
                     position: 'absolute', 
-                    top: 12, 
-                    right: 12, 
-                    bgcolor: 'rgba(255,255,255,0.3)',
-                    backdropFilter: 'blur(4px)',
-                    color: likes[item.id] ? '#ef4444' : 'white',
-                    '&:hover': { bgcolor: 'rgba(255,255,255,0.5)' }
-                  }}
-                >
-                  {likes[item.id] ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-                </IconButton>
-              </Box>
-
-              <CardContent sx={{ pt: 5, pb: 3, px: 3, flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
-                <Typography variant="h6" sx={{ fontWeight: 700, color: '#1e293b', mb: 0.5 }}>
-                  {item.title}
-                </Typography>
-                
-                <Box sx={{ display: 'flex', alignItems: 'center', color: '#64748b', mb: 2 }}>
-                  <LocationOnIcon sx={{ fontSize: 16, mr: 0.5 }} />
-                  <Typography variant="body2">{item.location}</Typography>
+                    bottom: -24, 
+                    left: 24, 
+                    width: 56, 
+                    height: 56, 
+                    bgcolor: 'white',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                    color: '#0f172a'
+                  }}>
+                    <StorefrontIcon />
+                  </Avatar>
+                  <IconButton 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleLike(item.id);
+                    }}
+                    sx={{ 
+                      position: 'absolute', 
+                      top: 12, 
+                      right: 12, 
+                      bgcolor: 'rgba(255,255,255,0.3)',
+                      backdropFilter: 'blur(4px)',
+                      color: likes[item.id] ? '#ef4444' : 'white',
+                      '&:hover': { bgcolor: 'rgba(255,255,255,0.5)' }
+                    }}
+                  >
+                    {likes[item.id] ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                  </IconButton>
                 </Box>
 
-                <Typography variant="body2" sx={{ color: '#475569', mb: 3, lineHeight: 1.6, flexGrow: 1 }}>
-                  "{item.desc}"
-                </Typography>
+                <CardContent sx={{ pt: 5, pb: 3, px: 3, flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+                  <Typography variant="h6" sx={{ fontWeight: 700, color: '#1e293b', mb: 0.5 }}>
+                    {item.title}
+                  </Typography>
+                  
+                  <Box sx={{ display: 'flex', alignItems: 'center', color: '#64748b', mb: 2 }}>
+                    <LocationOnIcon sx={{ fontSize: 16, mr: 0.5 }} />
+                    <Typography variant="body2">{item.location}</Typography>
+                  </Box>
 
-                <Box sx={{ display: 'flex', gap: 1, mb: 3, flexWrap: 'wrap' }}>
-                  {item.tags.map(tag => (
-                    <Chip 
-                      key={tag} 
-                      label={tag} 
-                      size="small" 
-                      sx={{ 
-                        bgcolor: 'rgba(56, 189, 248, 0.1)', 
-                        color: '#0284c7', 
-                        fontWeight: 600,
-                        borderRadius: 2
-                      }} 
-                    />
-                  ))}
-                </Box>
+                  <Typography variant="body2" sx={{ color: '#475569', mb: 3, lineHeight: 1.6, flexGrow: 1 }}>
+                    "{item.desc}"
+                  </Typography>
 
-                <Divider sx={{ mb: 2, borderColor: 'rgba(0,0,0,0.06)' }} />
+                  <Box sx={{ display: 'flex', gap: 1, mb: 3, flexWrap: 'wrap' }}>
+                    {item.tags.map(tag => (
+                      <Chip 
+                        key={tag} 
+                        label={tag} 
+                        size="small" 
+                        sx={{ 
+                          bgcolor: 'rgba(56, 189, 248, 0.1)', 
+                          color: '#0284c7', 
+                          fontWeight: 600,
+                          borderRadius: 2
+                        }} 
+                      />
+                    ))}
+                  </Box>
 
-                {/* Specs */}
-                <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 2 }}>
-                  <Box>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                      <SquareFootIcon sx={{ color: '#94a3b8', fontSize: 18 }} />
-                      <Box>
-                        <Typography variant="caption" sx={{ color: '#94a3b8', display: 'block', lineHeight: 1 }}>면적</Typography>
-                        <Typography variant="body2" sx={{ fontWeight: 600, color: '#334155' }}>{item.size}</Typography>
+                  <Divider sx={{ mb: 2, borderColor: 'rgba(0,0,0,0.06)' }} />
+
+                  {/* Specs */}
+                  <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 2 }}>
+                    <Box>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                        <SquareFootIcon sx={{ color: '#94a3b8', fontSize: 18 }} />
+                        <Box>
+                          <Typography variant="caption" sx={{ color: '#94a3b8', display: 'block', lineHeight: 1 }}>면적</Typography>
+                          <Typography variant="body2" sx={{ fontWeight: 600, color: '#334155' }}>{item.size}</Typography>
+                        </Box>
+                      </Box>
+                    </Box>
+                    <Box>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                        <AttachMoneyIcon sx={{ color: '#94a3b8', fontSize: 18 }} />
+                        <Box>
+                          <Typography variant="caption" sx={{ color: '#94a3b8', display: 'block', lineHeight: 1 }}>보증금/월세</Typography>
+                          <Typography variant="body2" sx={{ fontWeight: 600, color: '#334155' }}>{item.deposit} / {item.rent}</Typography>
+                        </Box>
                       </Box>
                     </Box>
                   </Box>
-                  <Box>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                      <AttachMoneyIcon sx={{ color: '#94a3b8', fontSize: 18 }} />
-                      <Box>
-                        <Typography variant="caption" sx={{ color: '#94a3b8', display: 'block', lineHeight: 1 }}>보증금/월세</Typography>
-                        <Typography variant="body2" sx={{ fontWeight: 600, color: '#334155' }}>{item.deposit} / {item.rent}</Typography>
-                      </Box>
-                    </Box>
+                  
+                  <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 3 }}>
+                    <Tooltip title="댓글 0개">
+                      <IconButton size="small" sx={{ color: '#94a3b8' }}>
+                        <CommentIcon fontSize="small" />
+                      </IconButton>
+                    </Tooltip>
                   </Box>
-                </Box>
-                
-                <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 3 }}>
-                  <Tooltip title="댓글 0개">
-                    <IconButton size="small" sx={{ color: '#94a3b8' }}>
-                      <CommentIcon fontSize="small" />
-                    </IconButton>
-                  </Tooltip>
-                </Box>
-              </CardContent>
-            </Card>
-          </Box>
-        ))}
-      </Box>
+                </CardContent>
+              </Card>
+            </Box>
+          ))}
+        </Box>
+      )}
       
       <style>
         {`
           @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
+          }
+          /* Fix leaflet popup style */
+          .leaflet-popup-content-wrapper {
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
           }
         `}
       </style>
