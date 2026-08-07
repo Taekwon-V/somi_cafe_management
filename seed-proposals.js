@@ -15,46 +15,46 @@ const db = getFirestore(app);
 
 const proposals = [
   {
-    title: "A안 (모던 우드톤 집중형 카페)",
+    title: "기획안 A: The Venue (프리미엄 재즈 살롱)",
     cards: [
       {
         id: "core",
         title: "핵심 정체성 (Core Identity)",
-        thumbnailUrl: "https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&q=80&w=800",
-        summarySentence: "바쁜 도심 속에서 온전히 나에게 집중할 수 있는 쉼표 같은 공간",
+        thumbnailUrl: "https://images.unsplash.com/photo-1559305616-3f99cd43e353?auto=format&fit=crop&q=80&w=800",
+        summarySentence: "바쁜 일상의 속도를 늦추고, 커피 향과 재즈 선율 속에서 온전히 머무는 어른들의 안식처",
         fields: [
-          { id: "mission", label: "브랜드 미션 (Mission)", type: "textarea", value: "바쁜 도심 속에서 온전히 나에게 집중할 수 있는 쉼표 같은 공간을 제공한다." },
-          { id: "vision", label: "브랜드 비전 (Vision)", type: "textarea", value: "지역 주민과 직장인들이 가장 먼저 떠올리는 영감과 휴식의 아지트가 된다." }
+          { id: "mission", label: "브랜드 미션 (Mission)", type: "textarea", value: "도심의 소음에서 벗어나, 1~2인의 손님이 자신만의 속도(Slow)로 깊은 대화나 사색을 즐길 수 있는 밀도 높은 시간을 제공한다." },
+          { id: "vision", label: "브랜드 비전 (Vision)", type: "textarea", value: "단순한 카페를 넘어, 성숙한 취향의 어른들이 언제든 찾아와 위로를 받는 프라이빗한 아지트(Venue)가 된다." }
         ]
       },
       {
         id: "target",
         title: "타겟 고객 및 차별화 (Target & USP)",
         thumbnailUrl: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=800",
-        summarySentence: "노트북 작업이나 독서를 위해 조용한 공간을 찾는 2030 프리랜서",
+        summarySentence: "번잡함을 피해 수준 높은 휴식을 찾는 20대 중반 ~ 40대",
         fields: [
-          { id: "primary_target", label: "주요 타겟 (Primary)", type: "textarea", value: "노트북 작업이나 독서를 위해 조용하고 집중하기 좋은 공간을 찾는 2030 프리랜서 및 직장인." },
-          { id: "usp", label: "차별화 강점 (USP)", type: "textarea", value: "완벽한 작업/독서 환경 (콘센트, 조명, 백색소음)" }
+          { id: "primary_target", label: "주요 타겟 (Primary)", type: "textarea", value: "왁자지껄한 대형 카페에 지쳐, 아침의 여유로운 '모닝커피'나 퇴근 후 차분한 시간을 원하는 성숙한 취향의 고객들 (어포더블 프리미엄 지향)" },
+          { id: "usp", label: "차별화 강점 (USP)", type: "textarea", value: "1. 참여형 재즈 플레이리스트(신청곡 시스템)\n2. 소리가 울리지 않도록 어쿠스틱 케어(흡음재)가 완비된 청각적 안락함\n3. 1인 손님과 소통이 가능한 바(Bar) 테이블 운영" }
         ]
       },
       {
         id: "visual",
         title: "시각적 정체성 (Visual Identity)",
         thumbnailUrl: "https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&q=80&w=800",
-        summarySentence: "비 오는 날 들어가고 싶은 아늑한 월넛 나무톤 무드",
+        summarySentence: "빛과 그림자가 대비되는 클래식한 유럽 감성의 무드",
         fields: [
-          { id: "mood", label: "브랜드 무드", type: "text", value: "비 오는 날 들어가고 싶은 아늑한 나무 오두막" },
-          { id: "color", label: "메인 컬러", type: "text", value: "Deep Walnut (#3E2723), Muted Forest (#2E4C3C)" }
+          { id: "mood", label: "브랜드 무드", type: "text", value: "어두운 조도 속 각 테이블을 감싸는 따뜻한 조명, 푹신한 암체어, 유럽 클래식 감성" },
+          { id: "color", label: "메인 컬러", type: "text", value: "Deep Walnut (짙은 원목), Warm Amber (호박색 조명), Muted Forest Green" }
         ]
       },
       {
         id: "space",
         title: "공간 경험 및 메뉴 (Space & Menu)",
-        thumbnailUrl: "https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&q=80&w=800",
-        summarySentence: "중앙 거대 쉐어 테이블과 시그니처 딥 크림 라떼",
+        thumbnailUrl: "https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&q=80&w=800",
+        summarySentence: "바(Bar)와 프라이빗한 2인석이 공존하는 여유로운 골목의 쉼터",
         fields: [
-          { id: "interior", label: "공간 기획 (Interior)", type: "textarea", value: "중앙 거대 쉐어 테이블 배치. 조도를 살짝 낮추고 테이블 스탠드 배치. 재즈/로파이 힙합 재생." },
-          { id: "beverage", label: "시그니처 음료", type: "textarea", value: "소미 크림 라떼, 포레스트 말차 샷" }
+          { id: "interior", label: "공간 기획 (Interior)", type: "textarea", value: "여유로운 동네 골목 1층 위치. 테이블 간격이 넉넉한 2인용 좌석 위주. 점주 포함 4인 이하의 콤팩트한 운영이 가능한 최적화된 동선." },
+          { id: "beverage", label: "시그니처 메뉴", type: "textarea", value: "수준 높은 모닝커피, 트렌디함보다는 묵직한 기본기를 자랑하는 클래식 에스프레소 베리에이션" }
         ]
       }
     ]
