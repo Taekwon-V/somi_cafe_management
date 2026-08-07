@@ -22,8 +22,9 @@ const recentUpdates = [
 
 // Dummy data for Vision Board History
 const visionHistory = [
-  { id: 1, image: '/images/the_venue_vision.jpg', version: 'v2026.08.07', desc: '기획안 A: The Venue (프리미엄 재즈 살롱)' },
-  { id: 2, image: '/images/modern_cozy_cafe.jpg', version: 'v2026.08.06', desc: '초기 모던 코지 컨셉 초안' }
+  { id: 1, image: '/images/the_venue_cozy.jpg', version: 'v2026.08.07_v2', desc: 'The Venue: 24석 규모 스케일 다운 및 바 테이블 컨셉' },
+  { id: 2, image: '/images/the_venue_vision.jpg', version: 'v2026.08.07_v1', desc: 'The Venue: 초기 프리미엄 대형 살롱 컨셉' },
+  { id: 3, image: '/images/modern_cozy_cafe.jpg', version: 'v2026.08.06', desc: '초기 모던 코지 컨셉 초안' }
 ];
 
 export default function Dashboard() {
