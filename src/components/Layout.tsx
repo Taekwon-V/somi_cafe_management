@@ -96,86 +96,108 @@ export default function Layout() {
   return (
     <Box sx={{ 
       display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
       minHeight: '100vh',
       backgroundColor: '#f8f9fa',
       backgroundImage: `url('/bg-minimal.jpg')`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
-      backgroundAttachment: 'fixed'
+      backgroundAttachment: 'fixed',
+      p: { xs: 0, md: 4 } // 데스크탑에서 주변 배경이 보이도록 패딩 추가
     }}>
-      <CssBaseline />
-      <AppBar
-        position="fixed"
-        elevation={0}
-        sx={{
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: `${drawerWidth}px` },
-          bgcolor: 'transparent',
-          color: '#1e293b',
-          borderBottom: 'none',
-        }}
-      >
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: 'none' } }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, fontWeight: 'bold' }}>
-            {menuItems.find(item => item.path === location.pathname)?.text || 'Somi Cafe Management'}
-          </Typography>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Typography variant="body2" sx={{ mr: 2, display: { xs: 'none', sm: 'block' } }}>
-              {user?.email}
+      <Box sx={{
+        display: 'flex',
+        width: '100%',
+        maxWidth: 1440,
+        height: { xs: '100vh', md: 'calc(100vh - 64px)' },
+        bgcolor: '#f8f9fa', // 앱 내부의 기본 배경색 (미니멀 바탕)
+        borderRadius: { xs: 0, md: 4 },
+        boxShadow: { xs: 'none', md: '0 20px 60px rgba(0,0,0,0.08)' },
+        overflow: 'hidden',
+        position: 'relative'
+      }}>
+        <CssBaseline />
+        <AppBar
+          position="absolute"
+          elevation={0}
+          sx={{
+            width: { sm: `calc(100% - ${drawerWidth}px)` },
+            ml: { sm: `${drawerWidth}px` },
+            bgcolor: 'transparent',
+            color: '#1e293b',
+            borderBottom: 'none',
+          }}
+        >
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+              sx={{ mr: 2, display: { sm: 'none' } }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, fontWeight: 'bold' }}>
+              {menuItems.find(item => item.path === location.pathname)?.text || 'Somi Cafe Management'}
             </Typography>
-            <Button color="inherit" onClick={logout} startIcon={<LogoutIcon />}>
-              로그아웃
-            </Button>
-          </Box>
-        </Toolbar>
-      </AppBar>
-      <Box
-        component="nav"
-        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-        aria-label="mailbox folders"
-      >
-        {/* Mobile Drawer */}
-        <Drawer
-          variant="temporary"
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
-          ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
-          }}
-          sx={{
-            display: { xs: 'block', sm: 'none' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, bgcolor: 'transparent' },
-          }}
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Typography variant="body2" sx={{ mr: 2, display: { xs: 'none', sm: 'block' } }}>
+                {user?.email}
+              </Typography>
+              <Button color="inherit" onClick={logout} startIcon={<LogoutIcon />}>
+                로그아웃
+              </Button>
+            </Box>
+          </Toolbar>
+        </AppBar>
+        <Box
+          component="nav"
+          sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 }, position: 'relative' }}
+          aria-label="mailbox folders"
         >
-          {drawer}
-        </Drawer>
-        {/* Desktop Drawer */}
-        <Drawer
-          variant="permanent"
-          sx={{
-            display: { xs: 'none', sm: 'block' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, borderRight: 'none', bgcolor: 'transparent' },
-          }}
-          open
+          {/* Mobile Drawer */}
+          <Drawer
+            variant="temporary"
+            open={mobileOpen}
+            onClose={handleDrawerToggle}
+            ModalProps={{
+              keepMounted: true, // Better open performance on mobile.
+            }}
+            sx={{
+              display: { xs: 'block', sm: 'none' },
+              '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, bgcolor: 'transparent' },
+            }}
+          >
+            {drawer}
+          </Drawer>
+          {/* Desktop Drawer */}
+          <Drawer
+            variant="permanent"
+            sx={{
+              display: { xs: 'none', sm: 'block' },
+              '& .MuiDrawer-paper': { 
+                boxSizing: 'border-box', 
+                width: drawerWidth, 
+                borderRight: 'none', 
+                bgcolor: 'transparent',
+                position: 'absolute', // 컨테이너 내부에 귀속되도록 absolute 처리
+                height: '100%' 
+              },
+            }}
+            open
+          >
+            {drawer}
+          </Drawer>
+        </Box>
+        <Box
+          component="main"
+          sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` }, bgcolor: 'transparent', height: '100%', overflow: 'auto' }}
         >
-          {drawer}
-        </Drawer>
-      </Box>
-      <Box
-        component="main"
-        sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` }, bgcolor: 'transparent', minHeight: '100vh' }}
-      >
-        <Toolbar />
-        <Outlet />
+          <Toolbar />
+          <Outlet />
+        </Box>
       </Box>
     </Box>
   );
