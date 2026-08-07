@@ -28,7 +28,7 @@ import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import BgmPlayer from './BgmPlayer';
 
-const drawerWidth = 240;
+const drawerWidth = 260; // 사이드바 너비를 살짝 넓혀서 여유롭게
 
 const menuItems = [
   { text: '대시보드', path: '/', icon: <DashboardIcon /> },
@@ -53,18 +53,23 @@ export default function Layout() {
 
   const drawer = (
     <Box sx={{ 
-      bgcolor: '#0f172a', // 다크 네이비(미드나잇 블루) 배경
+      bgcolor: '#0f172a', // 미드나잇 블루
       color: '#f8fafc', 
       height: '100%', 
-      borderRight: 'none' 
+      borderRight: 'none',
+      borderRadius: { xs: 0, md: 4 }, // 둥근 모서리 적용
+      boxShadow: { xs: 'none', md: '0 20px 60px rgba(0,0,0,0.1)' },
+      display: 'flex',
+      flexDirection: 'column',
+      overflow: 'hidden'
     }}>
-      <Toolbar sx={{ mb: 2, mt: 1 }}>
-        <LocalCafeIcon sx={{ mr: 1, color: '#38bdf8' }} />
-        <Typography variant="h6" noWrap component="div" sx={{ fontWeight: 'bold', color: 'white' }}>
+      <Toolbar sx={{ mb: 2, mt: 2, px: 3 }}>
+        <LocalCafeIcon sx={{ mr: 1.5, color: '#38bdf8', fontSize: 28 }} />
+        <Typography variant="h6" noWrap component="div" sx={{ fontWeight: '800', color: 'white', letterSpacing: '-0.5px' }}>
           Café Pulse
         </Typography>
       </Toolbar>
-      <List sx={{ px: 2 }}>
+      <List sx={{ px: 2, flexGrow: 1 }}>
         {menuItems.map((item) => (
           <ListItem key={item.text} disablePadding sx={{ mb: 0.5 }}>
             <ListItemButton
@@ -75,9 +80,10 @@ export default function Layout() {
               }}
               sx={{
                 borderRadius: 2,
+                py: 1.2,
                 color: location.pathname === item.path ? 'white' : '#94a3b8',
                 '&.Mui-selected': {
-                  bgcolor: '#1e293b', // 선택된 항목의 진한 배경
+                  bgcolor: '#1e293b', 
                   '&:hover': { bgcolor: '#334155' }
                 },
                 '&:hover': { bgcolor: 'rgba(255,255,255,0.05)' }
@@ -88,7 +94,7 @@ export default function Layout() {
               </ListItemIcon>
               <ListItemText
                 primary={
-                  <Typography sx={{ fontWeight: location.pathname === item.path ? 'bold' : 'medium', fontSize: '0.95rem' }}>
+                  <Typography sx={{ fontWeight: location.pathname === item.path ? '600' : '500', fontSize: '0.95rem' }}>
                     {item.text}
                   </Typography>
                 }
@@ -97,6 +103,22 @@ export default function Layout() {
           </ListItem>
         ))}
       </List>
+      
+      {/* 하단 유저 정보 영역 */}
+      <Box sx={{ p: 3, borderTop: '1px solid rgba(255,255,255,0.1)' }}>
+        <Typography variant="body2" noWrap sx={{ color: '#94a3b8', mb: 1 }}>
+          {user?.email}
+        </Typography>
+        <Button 
+          fullWidth 
+          color="inherit" 
+          onClick={logout} 
+          startIcon={<LogoutIcon />}
+          sx={{ justifyContent: 'flex-start', color: '#cbd5e1', '&:hover': { bgcolor: 'rgba(255,255,255,0.05)', color: 'white' } }}
+        >
+          로그아웃
+        </Button>
+      </Box>
     </Box>
   );
 
@@ -111,54 +133,19 @@ export default function Layout() {
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundAttachment: 'fixed',
-      p: { xs: 0, md: 4 } // 데스크탑에서 주변 배경이 보이도록 패딩 추가
+      p: { xs: 0, md: 4 } // 데스크탑에서 주변 여백 넉넉히
     }}>
       <Box sx={{
         display: 'flex',
         width: '100%',
         maxWidth: 1440,
         height: { xs: '100vh', md: 'calc(100vh - 64px)' },
-        bgcolor: '#f8f9fa', // 앱 내부의 기본 배경색 (미니멀 바탕)
-        borderRadius: { xs: 0, md: 4 },
-        boxShadow: { xs: 'none', md: '0 20px 60px rgba(0,0,0,0.08)' },
-        overflow: 'hidden',
+        gap: { xs: 0, md: 3 }, // 🌟 사이드바와 메인 화면 사이를 띄우는 핵심 속성
         position: 'relative'
       }}>
         <CssBaseline />
-        <AppBar
-          position="absolute"
-          elevation={0}
-          sx={{
-            width: { sm: `calc(100% - ${drawerWidth}px)` },
-            ml: { sm: `${drawerWidth}px` },
-            bgcolor: 'transparent',
-            color: '#1e293b',
-            borderBottom: 'none',
-          }}
-        >
-          <Toolbar>
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              edge="start"
-              onClick={handleDrawerToggle}
-              sx={{ mr: 2, display: { sm: 'none' } }}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, fontWeight: 'bold' }}>
-              {menuItems.find(item => item.path === location.pathname)?.text || 'Somi Cafe Management'}
-            </Typography>
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <Typography variant="body2" sx={{ mr: 2, display: { xs: 'none', sm: 'block' } }}>
-                {user?.email}
-              </Typography>
-              <Button color="inherit" onClick={logout} startIcon={<LogoutIcon />}>
-                로그아웃
-              </Button>
-            </Box>
-          </Toolbar>
-        </AppBar>
+        
+        {/* 사이드바 영역 */}
         <Box
           component="nav"
           sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 }, position: 'relative' }}
@@ -169,27 +156,27 @@ export default function Layout() {
             variant="temporary"
             open={mobileOpen}
             onClose={handleDrawerToggle}
-            ModalProps={{
-              keepMounted: true, // Better open performance on mobile.
-            }}
+            ModalProps={{ keepMounted: true }}
             sx={{
               display: { xs: 'block', sm: 'none' },
-              '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, bgcolor: 'transparent' },
+              '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, bgcolor: 'transparent', border: 'none' },
             }}
           >
             {drawer}
           </Drawer>
+          
           {/* Desktop Drawer */}
           <Drawer
             variant="permanent"
             sx={{
               display: { xs: 'none', sm: 'block' },
+              height: '100%',
               '& .MuiDrawer-paper': { 
                 boxSizing: 'border-box', 
                 width: drawerWidth, 
                 borderRight: 'none', 
-                bgcolor: 'transparent',
-                position: 'absolute', // 컨테이너 내부에 귀속되도록 absolute 처리
+                bgcolor: 'transparent', // 내부 Box에서 배경색/그림자 처리하므로 투명
+                position: 'relative', // absolute에서 relative로 변경하여 gap 속성이 먹히도록 함
                 height: '100%' 
               },
             }}
@@ -198,13 +185,54 @@ export default function Layout() {
             {drawer}
           </Drawer>
         </Box>
+
+        {/* 메인 콘텐츠 영역 (Floating) */}
         <Box
           component="main"
-          sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` }, bgcolor: 'transparent', height: '100%', overflow: 'auto' }}
+          sx={{ 
+            flexGrow: 1, 
+            bgcolor: '#f8f9fa', 
+            borderRadius: { xs: 0, md: 4 }, // 별도의 둥근 모서리
+            boxShadow: { xs: 'none', md: '0 20px 60px rgba(0,0,0,0.08)' }, // 별도의 그림자
+            height: '100%', 
+            overflow: 'auto',
+            display: 'flex',
+            flexDirection: 'column'
+          }}
         >
-          <Toolbar />
-          <Outlet />
+          {/* 독립적인 상단 AppBar */}
+          <AppBar
+            position="sticky"
+            elevation={0}
+            sx={{
+              bgcolor: 'transparent',
+              color: '#1e293b',
+              borderBottom: '1px solid rgba(0,0,0,0.05)',
+              px: { xs: 0, md: 2 }
+            }}
+          >
+            <Toolbar>
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                edge="start"
+                onClick={handleDrawerToggle}
+                sx={{ mr: 2, display: { sm: 'none' } }}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, fontWeight: 'bold' }}>
+                {menuItems.find(item => item.path === location.pathname)?.text || 'Somi Cafe Management'}
+              </Typography>
+            </Toolbar>
+          </AppBar>
+
+          {/* 실제 페이지 내용 */}
+          <Box sx={{ p: { xs: 2, md: 3 }, flexGrow: 1 }}>
+            <Outlet />
+          </Box>
         </Box>
+        
         <BgmPlayer />
       </Box>
     </Box>
