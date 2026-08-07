@@ -95,7 +95,7 @@ export default function Branding() {
 
         <Grid container spacing={4}>
           {cards.map(card => (
-            <Grid xs={12} sm={6} md={4} key={card.id}>
+            <Grid item xs={12} sm={6} md={4} key={card.id}>
               <BrandingGalleryCard card={card} onClick={() => handleCardClick(card.id)} />
             </Grid>
           ))}
