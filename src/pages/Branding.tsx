@@ -1,27 +1,36 @@
-import { useState, useEffect, useCallback } from 'react';
-import { Box, CircularProgress } from '@mui/material';
-import { collection, onSnapshot, doc, setDoc, deleteDoc, updateDoc } from 'firebase/firestore';
+import React, { useEffect, useState, useCallback } from 'react';
+import { Box, Typography, Container, Grid, CircularProgress } from '@mui/material';
+import { collection, onSnapshot, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase';
-import BrandingSidebar from '../components/BrandingSidebar';
-import BrandingEditor from '../components/BrandingEditor';
-import type { BrandingDoc } from '../types/branding';
+import type { GalleryCardData } from '../types/branding';
+import BrandingGalleryCard from '../components/BrandingGalleryCard';
+import BrandingDrawer from '../components/BrandingDrawer';
+
+// Debounce helper for Firebase writes
+function debounce(func: Function, wait: number) {
+  let timeout: ReturnType<typeof setTimeout>;
+  return function executedFunction(...args: any[]) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+}
 
 export default function Branding() {
-  const [docs, setDocs] = useState<BrandingDoc[]>([]);
-  const [selectedDocId, setSelectedDocId] = useState<string | null>(null);
+  const [cards, setCards] = useState<GalleryCardData[]>([]);
+  const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  // Firestore 실시간 리스너
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, 'branding_docs'), (snapshot) => {
-      const fetchedDocs = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      })) as BrandingDoc[];
-      
-      // updatedAt 기준으로 오름차순 정렬 (생성순)
-      fetchedDocs.sort((a, b) => a.updatedAt - b.updatedAt);
-      setDocs(fetchedDocs);
+    const q = collection(db, 'branding_docs');
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const docsData = snapshot.docs.map(d => ({ id: d.id, ...d.data() } as GalleryCardData));
+      docsData.sort((a, b) => a.title.localeCompare(b.title));
+      setCards(docsData);
       setLoading(false);
     }, (error) => {
       console.error("Error fetching docs: ", error);
@@ -31,99 +40,74 @@ export default function Branding() {
     return () => unsubscribe();
   }, []);
 
-  const handleAddDoc = async (parentId: string | null, type: 'folder' | 'document', title: string) => {
-    const newDocRef = doc(collection(db, 'branding_docs'));
-    const newDoc: BrandingDoc = {
-      id: newDocRef.id,
-      title,
-      content: '',
-      parentId,
-      type,
-      updatedAt: Date.now(),
-    };
-    await setDoc(newDocRef, newDoc);
-    
-    if (type === 'document') {
-      setSelectedDocId(newDoc.id);
-    }
+  const handleCardClick = (id: string) => {
+    setSelectedCardId(id);
+    setDrawerOpen(true);
   };
 
-  const handleDeleteDoc = async (id: string) => {
-    const docToDelete = docs.find(d => d.id === id);
-    if (!docToDelete) return;
-
-    // 만약 폴더라면 하위 문서들도 모두 삭제
-    if (docToDelete.type === 'folder') {
-      const children = docs.filter(d => d.parentId === id);
-      for (const child of children) {
-        await deleteDoc(doc(db, 'branding_docs', child.id));
+  const debouncedUpdateFirebase = useCallback(
+    debounce(async (cardId: string, updatedFields: any[]) => {
+      try {
+        const cardRef = doc(db, 'branding_docs', cardId);
+        await updateDoc(cardRef, { fields: updatedFields, updatedAt: Date.now() });
+      } catch (error) {
+        console.error("Error updating document: ", error);
       }
-    }
-    
-    await deleteDoc(doc(db, 'branding_docs', id));
-    
-    if (selectedDocId === id || docs.find(d => d.id === selectedDocId)?.parentId === id) {
-      setSelectedDocId(null);
-    }
-  };
-
-  // 디바운스된 업데이트 함수 (API 호출 낭비 방지)
-  const debounce = (func: Function, wait: number) => {
-    let timeout: ReturnType<typeof setTimeout>;
-    return (...args: any[]) => {
-      clearTimeout(timeout);
-      timeout = setTimeout(() => func(...args), wait);
-    };
-  };
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const updateFirestore = useCallback(
-    debounce(async (id: string, field: string, value: string) => {
-      const docRef = doc(db, 'branding_docs', id);
-      await updateDoc(docRef, {
-        [field]: value,
-        updatedAt: Date.now()
-      });
     }, 1000),
     []
   );
 
-  const handleUpdateTitle = (id: string, title: string) => {
-    setDocs(prev => prev.map(d => d.id === id ? { ...d, title } : d));
-    updateFirestore(id, 'title', title);
+  const handleUpdateField = (cardId: string, fieldId: string, newValue: string) => {
+    let newFields: any[] = [];
+    
+    setCards(prev => prev.map(card => {
+      if (card.id === cardId) {
+        newFields = card.fields.map(f => f.id === fieldId ? { ...f, value: newValue } : f);
+        return { ...card, fields: newFields };
+      }
+      return card;
+    }));
+
+    debouncedUpdateFirebase(cardId, newFields);
   };
 
-  const handleUpdateContent = (id: string, content: string) => {
-    setDocs(prev => prev.map(d => d.id === id ? { ...d, content } : d));
-    updateFirestore(id, 'content', content);
-  };
+  const selectedCard = cards.find(c => c.id === selectedCardId) || null;
 
   if (loading) {
     return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', bgcolor: '#f8f9fa' }}>
         <CircularProgress />
       </Box>
     );
   }
 
-  const selectedDoc = docs.find(d => d.id === selectedDocId) || null;
-
   return (
-    <Box sx={{ display: 'flex', height: 'calc(100vh - 64px)', m: -3 }}>
-      <BrandingSidebar 
-        docs={docs} 
-        selectedDocId={selectedDocId} 
-        onSelectDoc={setSelectedDocId}
-        onAddDoc={handleAddDoc}
-        onDeleteDoc={handleDeleteDoc}
+    <Box sx={{ flexGrow: 1, bgcolor: '#f8f9fa', minHeight: '100vh', overflowY: 'auto' }}>
+      <Container maxWidth="lg" sx={{ py: { xs: 4, md: 8 } }}>
+        <Box sx={{ mb: 6 }}>
+          <Typography variant="h3" sx={{ fontWeight: 800, color: '#111', mb: 1.5, letterSpacing: '-0.02em' }}>
+            브랜드 기획 갤러리
+          </Typography>
+          <Typography variant="body1" sx={{ color: '#666', fontSize: '1.1rem' }}>
+            카페의 정체성과 공간 무드를 시각적인 갤러리 뷰에서 직관적으로 구체화해 보세요.
+          </Typography>
+        </Box>
+
+        <Grid container spacing={4}>
+          {cards.map(card => (
+            <Grid item xs={12} sm={6} md={4} key={card.id}>
+              <BrandingGalleryCard card={card} onClick={() => handleCardClick(card.id)} />
+            </Grid>
+          ))}
+        </Grid>
+      </Container>
+
+      <BrandingDrawer 
+        open={drawerOpen}
+        card={selectedCard}
+        onClose={() => setDrawerOpen(false)}
+        onUpdateField={handleUpdateField}
       />
-      <Box sx={{ flexGrow: 1, height: '100%' }}>
-        <BrandingEditor 
-          doc={selectedDoc} 
-          onUpdateTitle={handleUpdateTitle}
-          onUpdateContent={handleUpdateContent}
-        />
-      </Box>
     </Box>
   );
 }

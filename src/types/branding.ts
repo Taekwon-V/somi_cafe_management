@@ -1,8 +1,14 @@
-export interface BrandingDoc {
+export interface GalleryCardField {
+  id: string;      // e.g., 'mission', 'vision'
+  label: string;   // e.g., '미션 (Mission)'
+  value: string;   // The text content
+  type: 'text' | 'textarea';
+}
+
+export interface GalleryCardData {
   id: string;
   title: string;
-  content: string;
-  parentId: string | null;
-  type: 'folder' | 'document';
+  thumbnailUrl: string;
+  fields: GalleryCardField[];
   updatedAt: number;
 }
