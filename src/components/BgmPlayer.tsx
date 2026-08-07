@@ -1,15 +1,27 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Box, IconButton, Typography } from '@mui/material';
 import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
 import PauseRoundedIcon from '@mui/icons-material/PauseRounded';
 import MusicNoteRoundedIcon from '@mui/icons-material/MusicNoteRounded';
-import ReactPlayer from 'react-player';
-
-const Player = ReactPlayer as any;
 
 export default function BgmPlayer() {
   const [playing, setPlaying] = useState(false);
   const [hover, setHover] = useState(false);
+  const audioRef = useRef<HTMLAudioElement>(null);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = 0.4; // 적절한 배경음악 볼륨
+      if (playing) {
+        audioRef.current.play().catch((err) => {
+          console.error("오디오 재생 실패 (브라우저 차단 등):", err);
+          setPlaying(false);
+        });
+      } else {
+        audioRef.current.pause();
+      }
+    }
+  }, [playing]);
 
   const togglePlay = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -79,17 +91,8 @@ export default function BgmPlayer() {
         </Typography>
       </Box>
 
-      {/* Hidden YouTube Player */}
-      <Box sx={{ display: 'none' }}>
-        <Player
-          url="https://www.youtube.com/watch?v=Dx5qFachd3A" // Royalty-free Jazz Music Mix
-          playing={playing}
-          controls={false}
-          width="0"
-          height="0"
-          volume={0.4}
-        />
-      </Box>
+      {/* 로컬 MP3 파일 재생 (브라우저 차단 무시) */}
+      <audio ref={audioRef} src="/bgm.mp3" loop />
     </Box>
   );
 }
