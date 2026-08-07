@@ -53,14 +53,14 @@ export default function Layout() {
 
   const drawer = (
     <Box sx={{ 
-      bgcolor: 'white', 
-      color: '#1e293b', 
+      bgcolor: '#0f172a', // 다크 네이비(미드나잇 블루) 배경
+      color: '#f8fafc', 
       height: '100%', 
-      borderRight: '1px solid rgba(0,0,0,0.05)' 
+      borderRight: 'none' 
     }}>
       <Toolbar sx={{ mb: 2, mt: 1 }}>
-        <LocalCafeIcon sx={{ mr: 1, color: '#0f172a' }} />
-        <Typography variant="h6" noWrap component="div" sx={{ fontWeight: 'bold', color: '#0f172a' }}>
+        <LocalCafeIcon sx={{ mr: 1, color: '#38bdf8' }} />
+        <Typography variant="h6" noWrap component="div" sx={{ fontWeight: 'bold', color: 'white' }}>
           Café Pulse
         </Typography>
       </Toolbar>
@@ -75,15 +75,15 @@ export default function Layout() {
               }}
               sx={{
                 borderRadius: 2,
-                color: location.pathname === item.path ? '#0f172a' : '#64748b',
+                color: location.pathname === item.path ? 'white' : '#94a3b8',
                 '&.Mui-selected': {
-                  bgcolor: '#f1f5f9',
-                  '&:hover': { bgcolor: '#e2e8f0' }
+                  bgcolor: '#1e293b', // 선택된 항목의 진한 배경
+                  '&:hover': { bgcolor: '#334155' }
                 },
-                '&:hover': { bgcolor: '#f8f9fa' }
+                '&:hover': { bgcolor: 'rgba(255,255,255,0.05)' }
               }}
             >
-              <ListItemIcon sx={{ color: location.pathname === item.path ? '#0f172a' : '#94a3b8', minWidth: 40 }}>
+              <ListItemIcon sx={{ color: location.pathname === item.path ? '#38bdf8' : '#64748b', minWidth: 40 }}>
                 {item.icon}
               </ListItemIcon>
               <ListItemText
