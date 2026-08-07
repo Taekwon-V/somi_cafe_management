@@ -103,7 +103,7 @@ export default function Branding() {
   }
 
   return (
-    <Box sx={{ flexGrow: 1, bgcolor: '#f8f9fa', minHeight: '100vh', overflowY: 'auto' }}>
+    <Box sx={{ flexGrow: 1, bgcolor: '#f8f9fa', height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
       
       {/* 탭 네비게이션 */}
       <Box sx={{ bgcolor: '#fff', borderBottom: '1px solid #e0e0e0', px: { xs: 2, md: 8 }, pt: 2 }}>
@@ -121,12 +121,13 @@ export default function Branding() {
         </Tabs>
       </Box>
 
-      <Container maxWidth="lg" sx={{ py: 3 }}>
-        {activeProposal && (
-          <>
-            {/* 요약본 헤더 (Summary Header) */}
-            <Paper elevation={0} sx={{ p: 2.5, mb: 3, borderRadius: 3, border: '1px solid #e0e0e0', bgcolor: '#fff' }}>
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+      <Box sx={{ flexGrow: 1, overflowY: 'auto', py: 5 }}>
+        <Container maxWidth="lg" sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+          {activeProposal && (
+            <>
+              {/* 요약본 헤더 (Summary Header) */}
+              <Paper elevation={0} sx={{ p: 3, mb: 4, borderRadius: 3, border: '1px solid #e0e0e0', bgcolor: '#fff' }}>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                 {activeProposal.cards.map(card => (
                   <Box key={`summary-${card.id}`} sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
                     <Box sx={{ 
@@ -143,17 +144,18 @@ export default function Branding() {
               </Box>
             </Paper>
 
-            {/* 2x2 갤러리 그리드 */}
-            <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)' }, gap: 2 }}>
-              {activeProposal.cards.map(card => (
-                <Box key={card.id}>
-                  <BrandingGalleryCard card={card} onClick={() => handleCardClick(card.id)} />
-                </Box>
-              ))}
-            </Box>
-          </>
-        )}
-      </Container>
+              {/* 2x2 갤러리 그리드 */}
+              <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)' }, gap: 4 }}>
+                {activeProposal.cards.map(card => (
+                  <Box key={card.id}>
+                    <BrandingGalleryCard card={card} onClick={() => handleCardClick(card.id)} />
+                  </Box>
+                ))}
+              </Box>
+            </>
+          )}
+        </Container>
+      </Box>
 
       <BrandingDrawer 
         open={drawerOpen}
