@@ -1,4 +1,3 @@
-import React from 'react';
 import { Drawer, Box, Typography, TextField, IconButton, Button } from '@mui/material';
 import { Close as CloseIcon } from '@mui/icons-material';
 import type { GalleryCardData } from '../types/branding';
@@ -18,7 +17,7 @@ export default function BrandingDrawer({ open, card, onClose, onUpdateField }: B
       anchor="right" 
       open={open} 
       onClose={onClose}
-      PaperProps={{ sx: { width: { xs: '100%', sm: 480 }, p: 0, bgcolor: '#fafafa' } }}
+      sx={{ '& .MuiDrawer-paper': { width: { xs: '100%', sm: 480 }, p: 0, bgcolor: '#fafafa' } }}
     >
       <Box sx={{ p: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between', bgcolor: '#fff', borderBottom: '1px solid #eee' }}>
         <Typography variant="h6" sx={{ fontWeight: 700, color: '#222', letterSpacing: '-0.01em' }}>

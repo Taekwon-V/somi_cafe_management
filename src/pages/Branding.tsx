@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { Box, Typography, Container, Grid, CircularProgress } from '@mui/material';
 import { collection, onSnapshot, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase';
@@ -95,7 +95,7 @@ export default function Branding() {
 
         <Grid container spacing={4}>
           {cards.map(card => (
-            <Grid item xs={12} sm={6} md={4} key={card.id}>
+            <Grid xs={12} sm={6} md={4} key={card.id}>
               <BrandingGalleryCard card={card} onClick={() => handleCardClick(card.id)} />
             </Grid>
           ))}

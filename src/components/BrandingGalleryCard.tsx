@@ -1,4 +1,3 @@
-import React from 'react';
 import { Card, CardActionArea, CardMedia, CardContent, Typography } from '@mui/material';
 import type { GalleryCardData } from '../types/branding';
 
