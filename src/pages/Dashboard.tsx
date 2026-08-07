@@ -79,11 +79,7 @@ export default function Dashboard() {
   const inProgressCount = tasks.filter(t => t.status === 'in-progress').length;
   const doneCount = tasks.filter(t => t.status === 'done').length;
 
-  const summaryData = [
-    { title: '해야 할 일', count: todoCount, icon: <ChairIcon fontSize="large" color="error" /> },
-    { title: '진행 중인 일', count: inProgressCount, icon: <LocalCafeIcon fontSize="large" color="warning" /> },
-    { title: '완료된 일', count: doneCount, icon: <CampaignIcon fontSize="large" color="success" /> },
-  ];
+
 
   const renderKanbanColumn = (title: string, status: Task['status'], color: string) => {
     const columnTasks = tasks.filter(t => t.status === status);
