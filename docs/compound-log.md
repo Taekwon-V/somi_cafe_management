@@ -17,3 +17,8 @@
 - **Tags**: #firebase #auth #domain
 - **Category**: [Configuration Error]
 - **내용**: Vercel 배포 후 Firebase Auth 로그인 시 `auth/unauthorized-domain` 에러 발생. **[개선책]** 앞으로 새로운 호스팅 도메인으로 배포 시, 반드시 Firebase Console의 Authentication > 설정 > 승인된 도메인에 해당 주소를 추가하도록 안내해야 함.
+
+- **Date**: 2026-08-07
+- **Tags**: #workflow #rule10
+- **Category**: [Workflow Rule Compliance]
+- **내용**: 사용자가 "개발해"라는 트리거를 입력하기 전에는 디자인 시안이나 브레인스토밍 내용이 확정되었더라도 소스 코드 수정을 시작해서는 안 됨. **[개선책]** 자동 승인(Auto-approval)이 있더라도 이는 시스템적 권한일 뿐, 비즈니스 의사결정이 아님을 명심하고, 에이전트는 기획 단계에서 사용자의 명시적 지시를 대기하는 흐름을 철저히 준수해야 함. 이를 통해 스펙 기획과 실제 개발 에이전트 간의 순차적 흐름을 유지함.
