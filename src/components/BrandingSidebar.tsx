@@ -136,7 +136,7 @@ export default function BrandingSidebar({ docs, selectedDocId, onSelectDoc, onAd
         )}
       </List>
 
-      <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)} fullWidth maxWidth="xs" PaperProps={{ sx: { borderRadius: 3 } }}>
+      <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)} fullWidth maxWidth="xs">
         <DialogTitle sx={{ fontWeight: 'bold' }}>{newItemType === 'folder' ? '새 카테고리 추가' : '새 문서 추가'}</DialogTitle>
         <DialogContent>
           <TextField
