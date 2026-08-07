@@ -54,10 +54,10 @@ const proposals = [
         id: "space",
         title: "공간 경험 및 메뉴 (Space & Menu)",
         thumbnailUrl: "https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&q=80&w=800",
-        summarySentence: "바(Bar)와 프라이빗한 2인석이 공존하는 여유로운 골목의 쉼터",
+        summarySentence: "바(Bar) 8인석과 2~4인용 소형 테이블이 아늑하게 공존하는 골목의 쉼터",
         fields: [
-          { id: "interior", label: "공간 기획 (Interior)", type: "textarea", value: "여유로운 동네 골목 1층 위치. 테이블 간격이 넉넉한 2인용 좌석 위주. 점주 포함 4인 이하의 콤팩트한 운영이 가능한 최적화된 동선." },
-          { id: "beverage", label: "시그니처 메뉴", type: "textarea", value: "수준 높은 모닝커피, 트렌디함보다는 묵직한 기본기를 자랑하는 클래식 에스프레소 베리에이션" }
+          { id: "interior", label: "공간 기획 (Interior)", type: "textarea", value: "라이브 공연이 없는 차분한 음악 감상 공간. 1인 손님과 소통하기 좋은 메인 바(Bar) 테이블 8석. 2인 테이블 4개, 4인 테이블 2개로 구성된 총 24석 규모의 콤팩트하고 아늑한 동선." },
+          { id: "beverage", label: "시그니처 메뉴", type: "textarea", value: "묵직한 기본기를 자랑하는 에스프레소 베리에이션. 와인 등 주류는 배제하고 커피 본연의 맛을 방해하지 않는 가벼운 구움과자 및 핑거푸드 위주의 디저트 라인업." }
         ]
       }
     ]

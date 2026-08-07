@@ -15,9 +15,9 @@ import { useAuth } from '../context/AuthContext';
 
 // Dummy data for Recent Updates
 const recentUpdates = [
-  { id: 1, category: '브랜딩', text: 'A안 (The Venue: 프리미엄 재즈 살롱) 기획안 쇼케이스 완료', time: '방금 전', icon: <CampaignIcon sx={{ color: '#10b981' }} />, color: '#d1fae5' },
-  { id: 2, category: '메뉴 및 레시피', text: '수준 높은 모닝 커피 & 묵직한 에스프레소 베리에이션 리스트업', time: '2시간 전', icon: <RestaurantMenuIcon sx={{ color: '#f59e0b' }} />, color: '#fef3c7' },
-  { id: 3, category: '인테리어', text: '어쿠스틱 룸(흡음재) 및 딥 월넛 가구 견적서 1차 검토', time: '1일 전', icon: <BrushIcon sx={{ color: '#ef4444' }} />, color: '#fee2e2' },
+  { id: 1, category: '브랜딩', text: 'A안 (The Venue: 재즈가 흐르는 프리미엄 카페) 기획안 픽스 완료', time: '방금 전', icon: <CampaignIcon sx={{ color: '#10b981' }} />, color: '#d1fae5' },
+  { id: 2, category: '메뉴 및 레시피', text: '주류 배제 및 커피 페어링용 가벼운 핑거푸드/구움과자 기획', time: '2시간 전', icon: <RestaurantMenuIcon sx={{ color: '#f59e0b' }} />, color: '#fef3c7' },
+  { id: 3, category: '인테리어', text: '바 8석, 2인석 4개, 4인석 2개 최적화 도면 및 가구 수량 파악', time: '1일 전', icon: <BrushIcon sx={{ color: '#ef4444' }} />, color: '#fee2e2' },
 ];
 
 // Dummy data for Vision Board History
