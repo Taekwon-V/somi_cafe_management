@@ -194,6 +194,7 @@ export default function Layout() {
             bgcolor: '#f8f9fa', 
             borderRadius: { xs: 0, md: 4 }, // 별도의 둥근 모서리
             boxShadow: { xs: 'none', md: '0 20px 60px rgba(0,0,0,0.08)' }, // 별도의 그림자
+            border: { xs: 'none', md: '1px solid rgba(0,0,0,0.08)' }, // 메인 영역 테두리 추가
             height: '100%', 
             overflow: 'auto',
             display: 'flex',
